@@ -23,12 +23,6 @@
     "owner": "OE",
     "external_cname": []
   },
-  "login.nft.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
   "nle.crimeportal.justice.gov.uk": {
     "recipient": "richard.brown@cgi.cjsm.net",
     "recipientcc": ["jordan.brown@hmcts.net.cjsm.net"],
@@ -41,90 +35,6 @@
     "owner": "OE",
     "external_cname": []
   },
-  "onlineplea.sit.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "onlineplea.prp.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "service.hearings.reform.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "vh-bookings-api-prod.hearings.reform.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "vh-notification-api-prod.hearings.reform.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "stream.test2.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "sip.test.self-test.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "stream.test.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "test.self-test.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "sip.test.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "test2.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "onlineplea.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "admin.hearings.reform.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "test.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
   "waminternaltest.ppud.justice.gov.uk": {
     "recipient": "Pankaj.Pant@lumen.com",
     "recipientcc": ["phil.roffe@digital.justice.gov.uk", "David.Savage@lumen.com", "Gabriela.Browning@lumen.com"],
@@ -134,18 +44,6 @@
   "avpn.paroleboard.gov.uk": {
     "recipient": "Sean.Holgate@paroleboard.gov.uk",
     "recipientcc": ["jay.aziz@coreazure.com"],
-    "owner": "OE",
-    "external_cname": []
-  },
-  "login.support.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "OE",
-    "external_cname": []
-  },
-  "dev.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
     "owner": "OE",
     "external_cname": []
   },
@@ -167,18 +65,6 @@
     "owner": "OE",
     "external_cname": []
   },
-  "sip.preprod.self-test.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "sip.preprod.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
   "staging.hmpps-performance-hub.service.justice.gov.uk": {
     "recipient": "jeremy.collins@digital.justice.gov.uk",
     "recipientcc": ["liban.mohamed@digital.justice.gov.uk"],
@@ -189,30 +75,6 @@
     "recipient": "jeremy.collins@digital.justice.gov.uk",
     "recipientcc": ["liban.mohamed@digital.justice.gov.uk"],
     "owner": "OE",
-    "external_cname": []
-  },
-  "preprod.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "preprod.self-test.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "sip.dev.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "sip.dev.self-test.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
     "external_cname": []
   },
   "crimeportal.justice.gov.uk": {
@@ -233,41 +95,11 @@
     "owner": "OE",
     "external_cname": ["mark.roberts@digital.justice.gov.uk", "chris.slattery@digital.justice.gov.uk"]
   },
-  "self-test.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "tools.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "tools.prp.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
   "*.stg.legalservices.gov.uk": {
     "recipient": "chris.slattery@digital.justice.gov.uk",
     "recipientcc": ["mark.roberts@digital.justice.gov.uk", "simon.pledger@digital.justice.gov.uk"],
     "owner": "OE",
     "external_cname": ["mark.roberts@digital.justice.gov.uk", "chris.slattery@digital.justice.gov.uk"]
-  },
-  "sip.self-test.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "sip.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
   },
   "cms.dp.hmpps.dsd.io": {
     "recipient": "Daniel.Glen@justice.gov.uk",
@@ -275,28 +107,10 @@
     "owner": "OE",
     "external_cname": ["Daniel.Glen@justice.gov.uk", "Chris.Needham2@justice.gov.uk", "Simon.Thomas@Justice.gov.uk"]
   },
-  "splunk.platform.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
   "sip.meet.video.justice.gov.uk": {
     "recipient": "rmccracken@kinly.com",
     "recipientcc": [],
     "owner": "OE",
-    "external_cname": []
-  },
-  "cpp-sit.nftpr1.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
     "external_cname": []
   },
   "benefitchecker.uat.legalservices.gov.uk": {
@@ -322,12 +136,6 @@
     "owner": "OE",
     "external_cname": ["mark.roberts@digital.justice.gov.uk", "chris.slattery@digital.justice.gov.uk"]
   },
-  "prosecuting.prx.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
   "bench.courtstore.justice.gov.uk": {
     "recipient": "thomas.roberts@justice.gov.uk",
     "recipientcc": ["Paul.Spinks@justice.gov.uk"],
@@ -339,24 +147,6 @@
     "recipientcc": ["howard.james@mojprint.com"],
     "owner": "OE",
     "external_cname": ["jason.farrell@overbright.com", "howard.james@mojprint.com"]
-  },
-  "prd.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "prp.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "sip.test2.hearings.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
   },
   "pp.exchange-integration-services-stream.service.justice.gov.uk": {
     "recipient": "luc.ashton@q-solution.co.uk",
@@ -435,21 +225,9 @@
     "external_cname": []
   },
   "justice.gov.uk": {
-    "recipient": "???",
+    "recipient": "antony.bishop@digital.justice.gov.uk",
     "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "webchat-client.ctsc.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "webchat.ctsc.hmcts.net": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
+    "owner": "OE",
     "external_cname": []
   },
   "www.mappa.justice.gov.uk": {
@@ -462,24 +240,6 @@
     "recipient": "richard.brown@cgi.cjsm.net",
     "recipientcc": [],
     "owner": "OE",
-    "external_cname": []
-  },
-  "login.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "nft.cpp.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "login.test.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
     "external_cname": []
   },
   "uat.ppud.justice.gov.uk": {
@@ -500,40 +260,10 @@
     "owner": "OE",
     "external_cname": []
   },
-  "prosecuting.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "api.prp.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "api.nft.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
   "benefitchecker.legalservices.gov.uk": {
     "recipient": "mark.roberts@digital.justice.gov.uk",
     "recipientcc": ["athar.majeed@digital.justice.gov.uk"],
     "owner": "OE",
-    "external_cname": []
-  },
-  "prosecuting.prp.cjscp.org.uk": {
-    "recipient": "",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "api.cjscp.org.uk": {
-    "recipient": "",
-    "recipientcc": [],
-    "owner": "",
     "external_cname": []
   },
   "training.ppud.justice.gov.uk": {
@@ -546,12 +276,6 @@
     "recipient": "John.Dryden@justice.gov.uk",
     "recipientcc": ["george.armstrong@justice.gov.uk", "Peter.Mackie1@justice.gov.uk", "Lauren.Taylor4@justice.gov.uk"],
     "owner": "OE",
-    "external_cname": []
-  },
-  "login.prp.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
     "external_cname": []
   },
   "list-assist.service.justice.gov.uk": {
@@ -584,40 +308,10 @@
     "owner": "HMCTS",
     "external_cname": []
   },
-  "apigw.sit.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "apigw.nft.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "apigw.prp.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "apigw.dev.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
   "crime-reference-data-api.service.justice.gov.uk": {
     "recipient": "richard.brown@cgi.cjsm.net",
     "recipientcc": ["aled.lewis@cgi.cjsm.net", "sarah.lippman@cgi.cjsm.net"],
     "owner": "OE",
-    "external_cname": []
-  },
-  "apigw.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
     "external_cname": []
   },
   "wam.ppud.justice.gov.uk": {
@@ -662,12 +356,6 @@
     "owner": "OE",
     "external_cname": []
   },
-  "api.dev.cjscp.org.uk": {
-    "recipient": "",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
   "vulnerability-scanner.security-operations.service.justice.gov.uk": {
     "recipient": "Iqbal.shaikh@justice.gov.uk",
     "recipientcc": ["Adrian.Warman@justice.gov.uk"],
@@ -698,28 +386,10 @@
     "owner": "OE",
     "external_cname": []
   },
-  "rota.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
   "videoportal.justice.gov.uk": {
     "recipient": "mbaya.molowa@neweratech.com",
     "recipientcc": ["wayne.sims@neweratech.co.uk"],
     "owner": "OE",
-    "external_cname": []
-  },
-  "onlineplea.dev.cjscp.org.uk": {
-    "recipient": "???",
-    "recipientcc": [],
-    "owner": "",
-    "external_cname": []
-  },
-  "*.platform.hmcts.net": {
-    "recipient": "",
-    "recipientcc": [],
-    "owner": "",
     "external_cname": []
   }
 }
