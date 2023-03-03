@@ -1,4 +1,7 @@
-import sys, os, datetime, json
+import sys
+import os
+import datetime
+import json
 import requests
 import argparse
 from notifications_python_client.notifications import NotificationsAPIClient
@@ -22,12 +25,12 @@ def setup():
     global gandi_api_key
     global notify_api_key
     global the_big_list
-    
+
     with open('./resources/mappings.json') as file:
         mappings = file.read()
-    
+
     the_big_list = json.loads(mappings)
-    
+
     # This will change when moving to a GitHub action
     try:
         gandi_api_key = os.environ.get('GANDI_API_KEY')
@@ -40,30 +43,33 @@ def find_expiring_certificates():
     '''
     Finds all certificates that are due to expire, and send emails if they meet the criteria.
     '''
-    
+
     url_extension = '/v5/certificate/issued-certs'
     HEADERS = {'Authorization': 'ApiKey ' + gandi_api_key}
-    
+
     # per_page is essentially a limit on the returned values, so this is set to 1000 to ensure all results are returned.
-    PARAMS = {'per_page':1000}
-    
+    PARAMS = {'per_page': 1000}
+
     try:
-        r = requests.get(url=gandi_url+url_extension, params=PARAMS, headers=HEADERS)
+        r = requests.get(url=gandi_url+url_extension,
+                         params=PARAMS, headers=HEADERS)
         r.raise_for_status()
     except requests.exceptions.HTTPError as e:
         raise SystemExit(f"You may need to export your Gandi API Key!\n {e}")
-        
+
     data = r.json()
-    
+
     for item in data:
         if item['status'] == 'valid' and the_big_list[item['cn']]['owner'] == 'OE':
-            date = datetime.datetime.strptime(item['dates']['ends_at'], '%Y-%m-%dT%H:%M:%SZ').date()
-            if date == (datetime.datetime.today() + datetime.timedelta(days=warn_1)).date():                        
+            date = datetime.datetime.strptime(
+                item['dates']['ends_at'], '%Y-%m-%dT%H:%M:%SZ').date()
+            if date == (datetime.datetime.today() + datetime.timedelta(days=warn_1)).date():
                 send_email('expire', build_params(item, warn_1))
             elif date == (datetime.datetime.today() + datetime.timedelta(days=warn_2)).date():
                 send_email('expire', build_params(item, warn_2))
             elif date == (datetime.datetime.today() + datetime.timedelta(days=warn_3)).date():
                 send_email('expire', build_params(item, warn_3))
+
 
 def build_params(item, days):
     domain_name = item['cn']
@@ -75,9 +81,10 @@ def build_params(item, days):
         'end_date': 'date',
         'days': days
     }
-    
+
     return params
-    
+
+
 def retrieve_email_list(domain=str):
     if domain in the_big_list and the_big_list[domain]["owner"] == "OE":
         print(f"The domain exists and is owned by Operations Engineering.")
@@ -86,40 +93,42 @@ def retrieve_email_list(domain=str):
             email_list.append(email)
         return email_list
     return False
-        
-def send_email(type, params):  
+
+
+def send_email(type, params):
     notifications_client = NotificationsAPIClient(notify_api_key)
-      
+
     if type == 'expire':
-        try:    
+        try:
             response = notifications_client.send_email_notification(
                 email_address='sam.pepper@digital.justice.gov.uk',
                 template_id=certificate_email_template_id,
                 personalisation=params
             )
         except requests.exceptions.HTTPError as e:
-            raise SystemExit(f"You may need to export your Gandi API Key!\n {e}")
-            
+            raise SystemExit(
+                f"You may need to export your Gandi API Key!\n {e}")
+
         print('EMAIL SENT!')
     return response
 
 # def get_certificate_information(cert):
 #     '''
 #     For returning a particular certificate based on it's domain name.
-#     '''  
-    
+#     '''
+
 #     URL = 'https://api.gandi.net/v5/certificate/issued-certs'
 #     PARAMS = {'cn': cert}
 #     HEADERS = {'Authorization': 'ApiKey ' + gandi_api_key}
-    
+
 #     try:
 #         r = requests.get(url=URL, params=PARAMS, headers=HEADERS)
 #         data = r.json()
 #         id = data[0]['id']
 #     except:
 #         print("Could not reach Gandi.")
-    
-    
+
+
 print(f"Starting script...")
 parser = argparse.ArgumentParser(
     description="Fetch information on a particular domain's certificate.")
