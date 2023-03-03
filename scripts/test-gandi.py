@@ -85,7 +85,7 @@ def build_params(item, days):
     return params
 
 
-def retrieve_email_list(domain:str):
+def retrieve_email_list(domain: str):
     if domain in the_big_list and the_big_list[domain]["owner"] == "OE":
         print(f"The domain exists and is owned by Operations Engineering.")
         email_list = [the_big_list[domain]["recipient"]]
