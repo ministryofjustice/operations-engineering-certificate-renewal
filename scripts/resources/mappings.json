@@ -1,13 +1,13 @@
 {
   "remoteaccess.yjaf.yjb.gov.uk": {
     "recipient": "olivier.gaubert@necsws.com",
-    "recipientcc": ["Jon.Dent@yjb.gov.uk"],
+    "recipientcc": ["Mick.Ewers@yjb.gov.uk"],
     "owner": "OE",
     "external_cname": ["olivier.gaubert@necsws.com"]
   },
   "*.yjaf.yjb.gov.uk": {
     "recipient": "olivier.gaubert@necsws.com",
-    "recipientcc": ["Jon.Dent@yjb.gov.uk"],
+    "recipientcc": ["Mick.Ewers@yjb.gov.uk"],
     "owner": "OE",
     "external_cname": ["olivier.gaubert@necsws.com"]
   },
