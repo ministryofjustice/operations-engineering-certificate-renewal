@@ -64,14 +64,17 @@ def find_expiring_certificates(the_big_list):
             date = datetime.datetime.strptime(
                 item['dates']['ends_at'], '%Y-%m-%dT%H:%M:%SZ').date()
             if date == (datetime.datetime.today() + datetime.timedelta(days=warn_1)).date():
-                send_email('expire', build_params(item['cn'], warn_1), the_big_list)
+                send_email('expire', build_params(
+                    item['cn'], warn_1), the_big_list)
             elif date == (datetime.datetime.today() + datetime.timedelta(days=warn_2)).date():
-                send_email('expire', build_params(item['cn'], warn_2), the_big_list)
+                send_email('expire', build_params(
+                    item['cn'], warn_2), the_big_list)
             elif date == (datetime.datetime.today() + datetime.timedelta(days=warn_3)).date():
-                send_email('expire', build_params(item['cn'], warn_3), the_big_list)
+                send_email('expire', build_params(
+                    item['cn'], warn_3), the_big_list)
 
 
-def build_params(domain_name:str, days:int, the_big_list):
+def build_params(domain_name: str, days: int, the_big_list):
     emails = retrieve_email_list(domain_name, the_big_list)
     params = {
         'email_addresses': emails,
