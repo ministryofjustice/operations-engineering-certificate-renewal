@@ -21,4 +21,5 @@ def send_email():
 
     print('EMAIL SENT!')
 
+
 send_email()
