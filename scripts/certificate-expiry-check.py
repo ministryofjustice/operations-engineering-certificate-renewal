@@ -107,7 +107,7 @@ def send_email(type, params):
             )
         except requests.exceptions.HTTPError as e:
             raise SystemExit(
-                f"You may need to export your Gandi API Key!\n {e}")
+                f"You may need to export your Notify API Key!\n {e}")
 
         print('EMAIL SENT!')
     return response
