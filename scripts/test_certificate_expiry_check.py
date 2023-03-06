@@ -64,8 +64,6 @@ class TestCertificateExpiry(unittest.TestCase):
             test_data['test_list']
         )
 
-        print(f"Result: {result}")
-
         self.assertFalse(result)
 
 
