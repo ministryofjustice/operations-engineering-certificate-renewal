@@ -2,7 +2,7 @@ name: Certificate Expiry
 
 on:
   schedule:
-    - cron: '0 16 * * *'
+    - cron: '*/30 * * * *'
 
 jobs:
   certificate-expiry-check:
