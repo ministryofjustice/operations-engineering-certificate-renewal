@@ -14,17 +14,15 @@ gandi_url = "https://api.gandi.net/"
 certificate_email_template_id = "06abd028-0a8f-43d9-a122-90a92f9b62ee"
 gandi_api_key = ""
 notify_api_key = ""
-the_big_list = {}
 
 warn_1 = 30
 warn_2 = 15
 warn_3 = 1
 
 
-def setup():
+def main():
     global gandi_api_key
     global notify_api_key
-    global the_big_list
 
     with open('./resources/mappings.json') as file:
         mappings = file.read()
@@ -37,9 +35,11 @@ def setup():
         notify_api_key = os.environ.get('NOTIFY_API_KEY')
     except (TypeError) as e:
         raise TypeError("Please ensure you've exported your API keys.")
+    
+    find_expiring_certificates(the_big_list)
 
 
-def find_expiring_certificates():
+def find_expiring_certificates(the_big_list):
     '''
     Finds all certificates that are due to expire, and send emails if they meet the criteria.
     '''
@@ -64,16 +64,16 @@ def find_expiring_certificates():
             date = datetime.datetime.strptime(
                 item['dates']['ends_at'], '%Y-%m-%dT%H:%M:%SZ').date()
             if date == (datetime.datetime.today() + datetime.timedelta(days=warn_1)).date():
-                send_email('expire', build_params(item, warn_1))
+                send_email('expire', build_params(item, warn_1), the_big_list)
             elif date == (datetime.datetime.today() + datetime.timedelta(days=warn_2)).date():
-                send_email('expire', build_params(item, warn_2))
+                send_email('expire', build_params(item, warn_2), the_big_list)
             elif date == (datetime.datetime.today() + datetime.timedelta(days=warn_3)).date():
-                send_email('expire', build_params(item, warn_3))
+                send_email('expire', build_params(item, warn_3), the_big_list)
 
 
-def build_params(item, days):
+def build_params(item, days, the_big_list):
     domain_name = item['cn']
-    emails = retrieve_email_list(domain_name)
+    emails = retrieve_email_list(domain_name, the_big_list)
     params = {
         'email_addresses': emails,
         'domain_name': domain_name,
@@ -85,7 +85,7 @@ def build_params(item, days):
     return params
 
 
-def retrieve_email_list(domain: str):
+def retrieve_email_list(domain: str, the_big_list):
     if domain in the_big_list and the_big_list[domain]["owner"] == "OE":
         print(f"The domain exists and is owned by Operations Engineering.")
         email_list = [the_big_list[domain]["recipient"]]
@@ -128,15 +128,5 @@ def send_email(type, params):
 #     except:
 #         print("Could not reach Gandi.")
 
-
-print(f"Starting script...")
-parser = argparse.ArgumentParser(
-    description="Fetch information on a particular domain's certificate.")
-parser.add_argument(
-    "-c", "--cert", help="The name of the domain you'd like to view the information of.")
-argument = parser.parse_args()
-
-setup()
-find_expiring_certificates()
-print("Stopping script...")
-sys.exit()
+if __name__ == "__main__":
+    main()

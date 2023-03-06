@@ -2,8 +2,7 @@ name: Certificate Expiry
 
 on:
   schedule:
-    # - cron: '0 16 * * *'
-    - cron: '*/10 * * * *' For using when testing
+    - cron: '0 16 * * *'
 
 jobs:
   certificate-expiry-check:
@@ -24,7 +23,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: execute py script
-        run: python3 scripts/test-send-email.py
+        run: python3 scripts/send_email_test.py
         env:
           GANDI_API_KEY: ${{ secrets.GANDI_API_KEY }}
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
