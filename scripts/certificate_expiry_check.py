@@ -35,7 +35,7 @@ def main():
         notify_api_key = os.environ.get('NOTIFY_API_KEY')
     except (TypeError) as e:
         raise TypeError("Please ensure you've exported your API keys.")
-    
+
     find_expiring_certificates(the_big_list)
 
 
@@ -126,6 +126,7 @@ def send_email(type, params):
 #         id = data[0]['id']
 #     except:
 #         print("Could not reach Gandi.")
+
 
 if __name__ == "__main__":
     main()
