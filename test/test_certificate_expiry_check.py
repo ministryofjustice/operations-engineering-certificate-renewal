@@ -1,14 +1,14 @@
 import unittest
 from unittest.mock import patch, Mock
 import datetime
-import certificate_expiry_check
+from scripts import certificate_expiry_check
 
 
 class TestCertificateExpiry(unittest.TestCase):
 
     @patch('requests.get')
-    @patch('certificate_expiry_check.build_params')
-    @patch('certificate_expiry_check.send_email')
+    @patch('scripts.certificate_expiry_check.build_params')
+    @patch('scripts.certificate_expiry_check.send_email')
     def test_email_is_sent_when_expected(self, mock_send_email, mock_build_params, mock_get):
 
         delta = (datetime.datetime.today() +
@@ -53,8 +53,8 @@ class TestCertificateExpiry(unittest.TestCase):
         mock_build_params.assert_called_once()
 
     @patch('requests.get')
-    @patch('certificate_expiry_check.build_params')
-    @patch('certificate_expiry_check.send_email')
+    @patch('scripts.certificate_expiry_check.build_params')
+    @patch('scripts.certificate_expiry_check.send_email')
     def test_email_is_not_sent_when_expected(self, mock_send_email, mock_build_params, mock_get):
 
         delta = (datetime.datetime.today() +

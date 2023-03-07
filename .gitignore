@@ -1,5 +1,6 @@
 .env
 .terraform/
+.idea/
 coverage/
 venv/
 env/
@@ -8,3 +9,4 @@ env/
 *.code-workspace
 *.sha256
 terraform.tfstate
+

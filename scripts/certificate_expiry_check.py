@@ -22,7 +22,7 @@ def main():
     global gandi_api_key
     global notify_api_key
 
-    with open('./resources/mappings.json') as file:
+    with open('resources/mappings.json') as file:
         mappings = file.read()
 
     the_big_list = json.loads(mappings)
