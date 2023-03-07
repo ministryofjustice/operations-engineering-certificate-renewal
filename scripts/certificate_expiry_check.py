@@ -86,12 +86,17 @@ def build_params(domain_name: str, days: int, the_big_list):
 
 
 def retrieve_email_list(domain: str, the_big_list):
+    filtered_email_list = []
     if domain in the_big_list and the_big_list[domain]["owner"] == "OE":
+        if the_big_list[domain]['external_cname'] is not None:
+            for email in the_big_list[domain]['external_cname']:
+                filtered_email_list.append(email)
+                return filtered_email_list
         print(f"The domain exists and is owned by Operations Engineering.")
-        email_list = [the_big_list[domain]["recipient"]]
+        filtered_email_list.append(the_big_list[domain]["recipient"])
         for email in the_big_list[domain]["recipientcc"]:
-            email_list.append(email)
-        return email_list
+            filtered_email_list.append(email)
+        return filtered_email_list
     return False
 
 
