@@ -15,7 +15,7 @@ def send_email():
                 "test_var": "test"
             }
         )
-        
+
         print(f"Response: {response}")
     except requests.exceptions.HTTPError as e:
         raise SystemExit(

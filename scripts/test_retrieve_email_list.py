@@ -23,9 +23,9 @@ class TestCertificateExpiry(unittest.TestCase):
 
         self.assertEqual(result['domain_name'], test_data['domain'])
         self.assertEqual(result['days'], test_data['days'])
-        self.assertEqual(result['email_addresses'], test_data['test_email_addresses'])
-        
-        
+        self.assertEqual(result['email_addresses'],
+                         test_data['test_email_addresses'])
+
     def test_matching_domain_returns_correct_data(self):
         test_data = {
             "test_list": {
@@ -44,8 +44,8 @@ class TestCertificateExpiry(unittest.TestCase):
             test_data['test_list']
         )
 
-        self.assertEqual(result[0], test_data['test_list'][test_data['test_domain']]['recipient'])
-        
+        self.assertEqual(result[0], test_data['test_list']
+                         [test_data['test_domain']]['recipient'])
 
     def test_non_matching_domain_returns_false(self):
         test_data = {
@@ -65,7 +65,8 @@ class TestCertificateExpiry(unittest.TestCase):
             test_data['test_list']
         )
 
-        self.assertFalse(result)   
+        self.assertFalse(result)
+
 
 if __name__ == '__main__':
     unittest.main()

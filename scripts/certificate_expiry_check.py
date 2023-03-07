@@ -41,7 +41,7 @@ def find_expiring_certificates(the_big_list):
     '''
     Finds all certificates that are due to expire, and send emails if they meet the criteria.
     '''
-    
+
     url_extension = '/v5/certificate/issued-certs'
     HEADERS = {'Authorization': 'ApiKey ' + gandi_api_key}
 
@@ -50,11 +50,10 @@ def find_expiring_certificates(the_big_list):
 
     try:
         certificate_list = requests.get(url=gandi_url+url_extension,
-                         params=PARAMS, headers=HEADERS)
+                                        params=PARAMS, headers=HEADERS)
         certificate_list.raise_for_status()
     except requests.exceptions.HTTPError as e:
         raise SystemExit(f"You may need to export your Gandi API Key!\n {e}")
-    
 
     data = certificate_list.json()
 
