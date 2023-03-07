@@ -63,7 +63,8 @@ class TestCertificateExpiry(unittest.TestCase):
             test_data['test_list']
         )
 
-        self.assertEqual(result[0], test_data['test_list'][test_data['test_domain']]['external_cname'][0])
+        self.assertEqual(result[0], test_data['test_list']
+                         [test_data['test_domain']]['external_cname'][0])
 
     def test_matching_domain_returns_multiple_emails(self):
         test_data = {
