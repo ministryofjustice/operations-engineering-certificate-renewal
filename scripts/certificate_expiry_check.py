@@ -1,9 +1,7 @@
-import sys
 import os
 import datetime
 import json
 import requests
-import argparse
 from notifications_python_client.notifications import NotificationsAPIClient
 
 
@@ -51,13 +49,13 @@ def find_expiring_certificates(the_big_list):
     PARAMS = {'per_page': 1000}
 
     try:
-        r = requests.get(url=gandi_url+url_extension,
-                         params=PARAMS, headers=HEADERS)
-        r.raise_for_status()
+        certificate_list = requests.get(url=gandi_url+url_extension,
+                                        params=PARAMS, headers=HEADERS)
+        certificate_list.raise_for_status()
     except requests.exceptions.HTTPError as e:
         raise SystemExit(f"You may need to export your Gandi API Key!\n {e}")
 
-    data = r.json()
+    data = certificate_list.json()
 
     for item in data:
         if item['status'] == 'valid' and the_big_list[item['cn']]['owner'] == 'OE':
@@ -110,8 +108,6 @@ def send_email(type, params):
         except requests.exceptions.HTTPError as e:
             raise SystemExit(
                 f"You may need to export your Notify API Key!\n {e}")
-
-        print('EMAIL SENT!')
     return response
 
 # def get_certificate_information(cert):
