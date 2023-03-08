@@ -102,10 +102,10 @@ def retrieve_email_list(domain: str, the_big_list):
     return False
 
 
-def send_email(type, params):
+def send_email(email_type, params):
     notifications_client = NotificationsAPIClient(notify_api_key)
 
-    if type == 'expire':
+    if email_type == 'expire':
         try:
             response = notifications_client.send_email_notification(
                 email_address='sam.pepper@digital.justice.gov.uk',
