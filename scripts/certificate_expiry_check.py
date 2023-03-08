@@ -87,7 +87,8 @@ def build_params(domain_name: str, days: int, the_big_list):
 
 def retrieve_email_list(domain: str, the_big_list):
     filtered_email_list = []
-    domain_exists_and_owned_by_ops_eng = domain in the_big_list and the_big_list[domain]["owner"] == "OE"
+    domain_exists_and_owned_by_ops_eng = domain in the_big_list and the_big_list[
+        domain]["owner"] == "OE"
     if domain_exists_and_owned_by_ops_eng:
         domain_contains_external_cname = the_big_list[domain]['external_cname'] is not None
         if domain_contains_external_cname:
