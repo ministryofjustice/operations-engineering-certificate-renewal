@@ -19,7 +19,8 @@ class TestDomainValidityCheck(unittest.TestCase):
             }
         }
 
-        result = certificate_expiry_check.domain_validity_check(test_data['test_item'], test_data['test_list'])
+        result = certificate_expiry_check.domain_validity_check(
+            test_data['test_item'], test_data['test_list'])
 
         self.assertFalse(result)
 
@@ -37,7 +38,8 @@ class TestDomainValidityCheck(unittest.TestCase):
             }
         }
 
-        result = certificate_expiry_check.domain_validity_check(test_data['test_item'], test_data['test_list'])
+        result = certificate_expiry_check.domain_validity_check(
+            test_data['test_item'], test_data['test_list'])
 
         self.assertFalse(result)
 
@@ -55,7 +57,8 @@ class TestDomainValidityCheck(unittest.TestCase):
             }
         }
 
-        result = certificate_expiry_check.domain_validity_check(test_data['test_item'], test_data['test_list'])
+        result = certificate_expiry_check.domain_validity_check(
+            test_data['test_item'], test_data['test_list'])
 
         self.assertFalse(result)
 
@@ -73,7 +76,8 @@ class TestDomainValidityCheck(unittest.TestCase):
             }
         }
 
-        result = certificate_expiry_check.domain_validity_check(test_data['test_item'], test_data['test_list'])
+        result = certificate_expiry_check.domain_validity_check(
+            test_data['test_item'], test_data['test_list'])
 
         self.assertTrue(result)
 
