@@ -5,7 +5,7 @@ from scripts import certificate_expiry_check
 from resources import test_utilities
 
 
-class TestCertificateExpiry(unittest.TestCase):
+class TestCertificateExpiryCheck(unittest.TestCase):
 
     @patch('requests.get')
     @patch('scripts.certificate_expiry_check.build_params')

@@ -3,7 +3,7 @@ from unittest.mock import patch
 from scripts import certificate_expiry_check
 
 
-class TestCertificateExpiry(unittest.TestCase):
+class TestBuildParameters(unittest.TestCase):
 
     @patch('scripts.certificate_expiry_check.retrieve_email_list')
     def test_build_parameters_returns_expected_data(self, mock_retrieve_email_list):
