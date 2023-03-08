@@ -86,19 +86,27 @@ def build_params(domain_name: str, days: int, the_big_list):
 
 
 def retrieve_email_list(domain: str, the_big_list):
-    if domain in the_big_list and the_big_list[domain]["owner"] == "OE":
+    filtered_email_list = []
+    domain_exists_and_owned_by_ops_eng = domain in the_big_list and the_big_list[
+        domain]["owner"] == "OE"
+    if domain_exists_and_owned_by_ops_eng:
+        domain_contains_external_cname = the_big_list[domain]['external_cname'] is not None
+        if domain_contains_external_cname:
+            for email in the_big_list[domain]['external_cname']:
+                filtered_email_list.append(email)
+                return filtered_email_list
         print(f"The domain exists and is owned by Operations Engineering.")
-        email_list = [the_big_list[domain]["recipient"]]
+        filtered_email_list.append(the_big_list[domain]["recipient"])
         for email in the_big_list[domain]["recipientcc"]:
-            email_list.append(email)
-        return email_list
-    return False
+            filtered_email_list.append(email)
+        return filtered_email_list
+    return []
 
 
-def send_email(type, params):
+def send_email(email_type, params):
     notifications_client = NotificationsAPIClient(notify_api_key)
 
-    if type == 'expire':
+    if email_type == 'expire':
         try:
             response = notifications_client.send_email_notification(
                 email_address='sam.pepper@digital.justice.gov.uk',

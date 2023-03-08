@@ -1,7 +1,8 @@
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import patch
 import datetime
 from scripts import certificate_expiry_check
+from resources import test_utilities
 
 
 class TestCertificateExpiry(unittest.TestCase):
@@ -40,7 +41,7 @@ class TestCertificateExpiry(unittest.TestCase):
             }]
         }
 
-        mock_resp = self._mock_response(
+        mock_resp = test_utilities._mock_response(
             json_data=test_data['mock_gandi_response'])
         mock_get.return_value = mock_resp
         mock_send_email.return_value(test_data['mock_send_email_response'])
@@ -86,7 +87,7 @@ class TestCertificateExpiry(unittest.TestCase):
             }]
         }
 
-        mock_resp = self._mock_response(
+        mock_resp = test_utilities._mock_response(
             json_data=test_data['mock_gandi_response'])
         mock_get.return_value = mock_resp
         mock_send_email.return_value(test_data['mock_send_email_response'])
@@ -97,22 +98,6 @@ class TestCertificateExpiry(unittest.TestCase):
 
         mock_send_email.assert_not_called()
         mock_build_params.assert_not_called()
-
-    def _mock_response(self, status=200, content="CONTENT", json_data=None, raise_for_status=None):
-
-        mock_resp = Mock()
-        mock_resp.raise_for_status = Mock()
-
-        if raise_for_status:
-            mock_resp.raise_for_status.side_effect = raise_for_status
-        mock_resp.status_code = status
-        mock_resp.content = content
-
-        if json_data:
-            mock_resp.json = Mock(
-                return_value=json_data
-            )
-        return mock_resp
 
 
 if __name__ == '__main__':
