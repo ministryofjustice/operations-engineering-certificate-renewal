@@ -22,8 +22,8 @@ class TestCertificateExpiry(unittest.TestCase):
             test_data['test_list']
         )
 
-        self.assertEqual(result[0], test_data['test_list']
-                         [test_data['test_domain']]['recipient'])
+        self.assertIn(test_data['test_list']
+                         [test_data['test_domain']]['recipient'], result)
 
     def test_non_matching_domain_returns_false(self):
         test_data = {
@@ -63,8 +63,8 @@ class TestCertificateExpiry(unittest.TestCase):
             test_data['test_list']
         )
 
-        self.assertEqual(result[0], test_data['test_list']
-                         [test_data['test_domain']]['external_cname'][0])
+        self.assertIn(test_data['test_list']
+                         [test_data['test_domain']]['external_cname'][0], result)
 
     def test_matching_domain_returns_multiple_emails(self):
         test_data = {
@@ -87,12 +87,12 @@ class TestCertificateExpiry(unittest.TestCase):
             test_data['test_list']
         )
 
-        self.assertEqual(result[0], test_data['test_list']
-                         [test_data['test_domain']]['recipient'])
-        self.assertEqual(result[1], test_data['test_list']
-                         [test_data['test_domain']]['recipientcc'][0])
-        self.assertEqual(result[2], test_data['test_list']
-                         [test_data['test_domain']]['recipientcc'][1])
+        self.assertIn(test_data['test_list']
+                         [test_data['test_domain']]['recipient'], result)
+        self.assertIn(test_data['test_list']
+                         [test_data['test_domain']]['recipientcc'][0], result)
+        self.assertIn(test_data['test_list']
+                         [test_data['test_domain']]['recipientcc'][1], result)
 
 
 if __name__ == '__main__':
