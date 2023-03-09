@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch
 from scripts import certificate_expiry_check
 
 

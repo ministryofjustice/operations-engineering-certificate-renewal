@@ -2,11 +2,13 @@ import unittest
 from unittest.mock import patch
 import datetime
 from scripts import certificate_expiry_check
-from resources import test_utilities
+import test_utilities
 
 
 class TestCertificateExpiryCheck(unittest.TestCase):
 
+    @patch('config.GANDI_API_KEY', "xxx")
+    @patch('config.NOTIFY_API_KEY', "xxx")
     @patch('requests.get')
     @patch('scripts.certificate_expiry_check.build_params')
     @patch('scripts.certificate_expiry_check.send_email')
@@ -53,6 +55,8 @@ class TestCertificateExpiryCheck(unittest.TestCase):
         mock_send_email.assert_called_once()
         mock_build_params.assert_called_once()
 
+    @patch('config.GANDI_API_KEY', "xxx")
+    @patch('config.NOTIFY_API_KEY', "xxx")
     @patch('requests.get')
     @patch('scripts.certificate_expiry_check.build_params')
     @patch('scripts.certificate_expiry_check.send_email')
