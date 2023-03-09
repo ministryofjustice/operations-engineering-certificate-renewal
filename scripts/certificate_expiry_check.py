@@ -17,9 +17,11 @@ def find_expiring_certificates(email_list):
                                         params=params, headers=headers)
         certificate_list.raise_for_status()
     except requests.exceptions.HTTPError as authentication_error:
-        raise SystemExit(f"You may need to export your Gandi API key:\n {authentication_error}")
+        raise SystemExit(
+            f"You may need to export your Gandi API key:\n {authentication_error}")
     except TypeError as api_key_error:
-        raise TypeError(f"Gandi API key does not exist or is in the wrong format:\n {api_key_error}")
+        raise TypeError(
+            f"Gandi API key does not exist or is in the wrong format:\n {api_key_error}")
 
     domain_list = certificate_list.json()
 
