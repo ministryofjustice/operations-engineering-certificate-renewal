@@ -1,143 +1,91 @@
-import os
 import datetime
-import json
 import requests
 from notifications_python_client.notifications import NotificationsAPIClient
+import config
 
 
-# Most of these will need to be env vars/secrets
-
-reply_email = "certificates@digital.justice.gov.uk"
-gandi_url = "https://api.gandi.net/"
-certificate_email_template_id = "06abd028-0a8f-43d9-a122-90a92f9b62ee"
-gandi_api_key = ""
-notify_api_key = ""
-
-warn_1 = 30
-warn_2 = 15
-warn_3 = 1
-
-
-def main():
-    global gandi_api_key
-    global notify_api_key
-
-    with open('resources/mappings.json') as file:
-        mappings = file.read()
-
-    the_big_list = json.loads(mappings)
-
-    # This will change when moving to a GitHub action
-    try:
-        gandi_api_key = os.environ.get('GANDI_API_KEY')
-        notify_api_key = os.environ.get('NOTIFY_API_KEY')
-    except TypeError as e:
-        raise TypeError("Please ensure you've exported your API keys.")
-
-    find_expiring_certificates(the_big_list)
-
-
-def find_expiring_certificates(the_big_list):
+def find_expiring_certificates(email_list):
     """
     Finds all certificates that are due to expire, and sends an email if they meet the criteria.
     """
 
-    url_extension = '/v5/certificate/issued-certs'
-    headers = {'Authorization': 'ApiKey ' + gandi_api_key}
+    headers = {'Authorization': 'ApiKey ' + config.GANDI_API_KEY}
     params = {'per_page': 1000}
 
     try:
-        certificate_list = requests.get(url=gandi_url+url_extension,
+        certificate_list = requests.get(url=config.GANDI_BASE_URL + config.CERT_URL_EXTENSION,
                                         params=params, headers=headers)
         certificate_list.raise_for_status()
-    except requests.exceptions.HTTPError as e:
-        raise SystemExit(f"You may need to export your Gandi API Key!\n {e}")
+    except requests.exceptions.HTTPError as authentication_error:
+        raise SystemExit(f"You may need to export your Gandi API key:\n {authentication_error}")
+    except TypeError as api_key_error:
+        raise TypeError(f"Gandi API key does not exist or is in the wrong format:\n {api_key_error}")
 
-    data = certificate_list.json()
+    domain_list = certificate_list.json()
 
-    for item in data:
-
-        if domain_validity_check(item, the_big_list):
+    for domain_item in domain_list:
+        if domain_validity_check(domain_item, email_list):
             date = datetime.datetime.strptime(
-                item['dates']['ends_at'], '%Y-%m-%dT%H:%M:%SZ').date()
-            if date == (datetime.datetime.today() + datetime.timedelta(days=warn_1)).date():
-                send_email('expire', build_params(
-                    item['cn'], warn_1, the_big_list))
-            elif date == (datetime.datetime.today() + datetime.timedelta(days=warn_2)).date():
-                send_email('expire', build_params(
-                    item['cn'], warn_2, the_big_list))
-            elif date == (datetime.datetime.today() + datetime.timedelta(days=warn_3)).date():
-                send_email('expire', build_params(
-                    item['cn'], warn_3, the_big_list))
+                domain_item['dates']['ends_at'], '%Y-%m-%dT%H:%M:%SZ').date()
+            for threshold in config.CERT_EXPIRY_THRESHOLDS:
+                if date == (datetime.datetime.today() + datetime.timedelta(days=threshold)).date():
+                    send_email('expire', build_params(
+                        domain_item['cn'], threshold, email_list, date))
+                    break
 
 
-def domain_validity_check(item, the_big_list):
-    domain_exists_in_map = item['cn'] in the_big_list
+def domain_validity_check(item, email_list):
+    domain_exists_in_map = item['cn'] in email_list
     domain_is_in_valid_state = item['status'] == 'valid'
     if domain_exists_in_map and domain_is_in_valid_state:
-        domain_is_owned_by_ops_eng = the_big_list[item['cn']]["owner"] == "OE"
+        domain_is_owned_by_ops_eng = email_list[item['cn']]["owner"] == "OE"
         return domain_is_owned_by_ops_eng
     return False
 
 
-def build_params(domain_name: str, days: int, the_big_list):
-    emails = retrieve_email_list(domain_name, the_big_list)
+def build_params(domain_name: str, days: int, email_list, date):
+    emails = retrieve_email_list(domain_name, email_list)
     params = {
         'email_addresses': emails,
         'domain_name': domain_name,
-        'csr_email': reply_email,
-        'end_date': 'date',
+        'csr_email': config.DEFAULT_REPLY_EMAIL,
+        'end_date': str(date),
         'days': days
     }
 
     return params
 
 
-def retrieve_email_list(domain: str, the_big_list):
+def retrieve_email_list(domain: str, email_list):
     filtered_email_list = []
-    domain_contains_external_cname = the_big_list[domain]['external_cname'] is not None
+    domain_contains_external_cname = email_list[domain]['external_cname'] is not None
     if domain_contains_external_cname:
-        for email in the_big_list[domain]['external_cname']:
+        for email in email_list[domain]['external_cname']:
             filtered_email_list.append(email)
             return filtered_email_list
     print(f"The domain exists and is owned by Operations Engineering.")
-    filtered_email_list.append(the_big_list[domain]["recipient"])
-    for email in the_big_list[domain]["recipientcc"]:
+    filtered_email_list.append(email_list[domain]["recipient"])
+    for email in email_list[domain]["recipientcc"]:
         filtered_email_list.append(email)
     return filtered_email_list
 
 
 def send_email(email_type, params):
-    notifications_client = NotificationsAPIClient(notify_api_key)
+
+    notifications_client = NotificationsAPIClient(config.NOTIFY_API_KEY)
 
     if email_type == 'expire':
         try:
             response = notifications_client.send_email_notification(
                 email_address='sam.pepper@digital.justice.gov.uk',
-                template_id=certificate_email_template_id,
+                template_id=config.CERT_EXPIRE_EMAIL_TEMPLATE_ID,
                 personalisation=params
             )
-        except requests.exceptions.HTTPError as e:
+        except requests.exceptions.HTTPError as api_key_error:
             raise SystemExit(
-                f"You may need to export your Notify API Key!\n {e}")
-    return response
-
-# def get_certificate_information(cert):
-#     '''
-#     For returning a particular certificate based on it's domain name.
-#     '''
-
-#     URL = 'https://api.gandi.net/v5/certificate/issued-certs'
-#     PARAMS = {'cn': cert}
-#     HEADERS = {'Authorization': 'ApiKey ' + gandi_api_key}
-
-#     try:
-#         r = requests.get(url=URL, params=PARAMS, headers=HEADERS)
-#         data = r.json()
-#         id = data[0]['id']
-#     except:
-#         print("Could not reach Gandi.")
+                f"You may need to export your Notify API Key:\n {api_key_error}")
+        return response
 
 
 if __name__ == "__main__":
-    main()
+    find_expiring_certificates(config.EMAIL_MAP)
