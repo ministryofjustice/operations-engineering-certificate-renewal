@@ -5,7 +5,8 @@ import requests
 from notifications_python_client.notifications import NotificationsAPIClient
 from pyaml_env import parse_config
 
-config_location = os.getenv("CONFIG_CONTEXT", default="../configs/production.yml")
+config_location = os.getenv(
+    "CONFIG_CONTEXT", default="../configs/production.yml")
 config = parse_config(config_location)
 
 
@@ -18,7 +19,8 @@ def find_expiring_certificates(email_list):
 
     try:
         certificate_list = requests.get(
-            url=config['urls']['gandi_base_url'] + config['urls']['gandi_cert_url_extension'],
+            url=config['urls']['gandi_base_url'] +
+            config['urls']['gandi_cert_url_extension'],
             params=params, headers=headers)
         certificate_list.raise_for_status()
     except requests.exceptions.HTTPError as authentication_error:
@@ -79,7 +81,8 @@ def retrieve_email_list(domain: str, email_list):
 
 def send_email(email_type, params):
 
-    notifications_client = NotificationsAPIClient(config['keys']['notify_api_key'])
+    notifications_client = NotificationsAPIClient(
+        config['keys']['notify_api_key'])
 
     if email_type == 'expire':
         try:
@@ -99,4 +102,3 @@ if __name__ == "__main__":
         mappings = file.read()
     email_map = json.loads(mappings)
     find_expiring_certificates(email_map)
-
