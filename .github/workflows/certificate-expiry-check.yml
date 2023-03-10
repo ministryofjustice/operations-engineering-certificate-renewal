@@ -20,7 +20,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: execute py script
-        run: python3 scripts/send_email_test.py
+        run: source run.sh certexpire
         env:
           GANDI_API_KEY: ${{ secrets.GANDI_API_KEY }}
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
