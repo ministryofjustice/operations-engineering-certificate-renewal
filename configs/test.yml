@@ -1,0 +1,10 @@
+keys:
+  gandi_api_key: "test_key"
+  notify_api_key: "test_key"
+template_ids:
+  cert_expiry: "test_template_id"
+urls:
+  gandi_base_url: "https://test.net/"
+  gandi_cert_url_extension: "v5/certificate/issued-certs"
+cert_expiry_thresholds: [30, 15, 1]
+reply_email: "certificates@digital.justice.gov.uk"
