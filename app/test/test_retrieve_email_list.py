@@ -1,5 +1,5 @@
 import unittest
-from scripts import certificate_expiry_check
+from app import certificate_expiry_check
 
 
 class TestRetrieveEmailList(unittest.TestCase):

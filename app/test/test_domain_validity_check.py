@@ -1,6 +1,7 @@
+import os
 import unittest
-from unittest.mock import patch
-from scripts import certificate_expiry_check
+
+from app import certificate_expiry_check
 
 
 class TestDomainValidityCheck(unittest.TestCase):

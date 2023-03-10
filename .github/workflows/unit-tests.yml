@@ -19,4 +19,4 @@ jobs:
           pip install -r requirements.txt
       - name: Run unit tests with unittest
         run: |
-          python -m unittest discover -s test/ -fv
+          source run.sh unittest
