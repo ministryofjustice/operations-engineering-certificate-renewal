@@ -1,10 +1,13 @@
+import os
 import unittest
-from scripts import certificate_expiry_check
+
+from app import certificate_expiry_check
 
 
 class TestDomainValidityCheck(unittest.TestCase):
 
     def test_domain_validity_check_returns_false_with_non_matching_domain(self):
+
         test_data = {
             "test_item": {
                 "cn": "matching.domain.gov.uk",
@@ -62,6 +65,8 @@ class TestDomainValidityCheck(unittest.TestCase):
         self.assertFalse(result)
 
     def test_domain_validity_check_returns_true_with_correct_information(self):
+        print(f"CONFIG: {os.getenv('CONFIG_CONTEXT')}")
+
         test_data = {
             "test_item": {
                 "cn": "matching.domain.gov.uk",
@@ -82,4 +87,5 @@ class TestDomainValidityCheck(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    os.environ['CONFIG_CONTEXT'] = "../../configs/test.yml"
     unittest.main()
