@@ -11,3 +11,4 @@ reply_email: "certificates@digital.justice.gov.uk"
 s3:
   bucket_name: !ENV ${EMAIL_MAP_S3_BUCKET}
   object_name: !ENV ${EMAIL_MAP_FILE_NAME}
+  temp_secret: !ENV ${TEMP_SECRET}
