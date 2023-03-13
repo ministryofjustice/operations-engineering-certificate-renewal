@@ -8,3 +8,6 @@ urls:
   gandi_cert_url_extension: "v5/certificate/issued-certs"
 cert_expiry_thresholds: [30, 15, 1]
 reply_email: "certificates@digital.justice.gov.uk"
+s3:
+  bucket_name: !ENV ${EMAIL_MAP_S3_BUCKET}
+  object_name: !ENV ${EMAIL_MAP_FILE_NAME}

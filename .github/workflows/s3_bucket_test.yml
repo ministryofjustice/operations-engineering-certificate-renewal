@@ -1,0 +1,28 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  s3_bucket_test:
+    name: Run the s3 bucket test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{secrets.AWS_ID}}
+          aws-region: eu-west-2
+      - name: Python Setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install Python Packages from Requirements File
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: execute certificate expiry run
+        run: source run.sh s3test
+        env:
+          EMAIL_MAP_S3_BUCKET: ${{ secrets.EMAIL_MAP_S3_BUCKET }}
+          EMAIL_MAP_FILE_NAME: ${{ secrets.EMAIL_MAP_FILE_NAME }}

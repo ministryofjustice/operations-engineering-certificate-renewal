@@ -11,6 +11,12 @@ then
   export CONFIG_CONTEXT="./configs/production.yml"
   python3 app/send_email_test.py
   exit 0
+elif [ $1 = "s3test" ]
+# This is a temporary option for testing s3 interactions
+then
+  export CONFIG_CONTEXT="./configs/production.yml"
+  python3 app/s3_bucket_test.py
+  exit 0
 elif [ $1 = "certexpire" ]
 then
   export CONFIG_CONTEXT="./configs/production.yml"
