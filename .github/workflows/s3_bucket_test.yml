@@ -26,3 +26,4 @@ jobs:
         env:
           EMAIL_MAP_S3_BUCKET: ${{ secrets.EMAIL_MAP_S3_BUCKET }}
           EMAIL_MAP_FILE_NAME: ${{ secrets.EMAIL_MAP_FILE_NAME }}
+          TEMP_SECRET: ${{ secrets.TEMP_SECRET }}
