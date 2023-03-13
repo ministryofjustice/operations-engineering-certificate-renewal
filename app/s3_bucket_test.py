@@ -8,4 +8,5 @@ config = parse_config(config_location)
 file_path = './app/resources/s3_email_mapping.json'
 
 s3 = boto3.client('s3')
-s3.download_file(config.get(config['s3']['bucket_name']), config['s3']['object_name'], file_path)
+s3.download_file(config.get(
+    config['s3']['bucket_name']), config['s3']['object_name'], file_path)
