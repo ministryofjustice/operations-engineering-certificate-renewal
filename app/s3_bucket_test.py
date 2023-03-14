@@ -10,7 +10,12 @@ file_path = './app/resources/s3_email_mapping.json'
 # file_path = os.path.join(os.getcwd(), 'resources', 'mappings.json')
 
 s3 = boto3.client('s3')
-s3.download_file('operations-engineering-certificate-email', 'mappings.json', file_path)
+# s3.download_file('operations-engineering-certificate-email', 'mappings.json', file_path)
+
+with open(file_path, 'wb') as file:
+    s3.download_fileobj('operations-engineering-certificate-email', 'mappings.json', file)
+
+    print(f"FILE: {file}")
 
 # resources_dir = os.path.join(os.getcwd(), 'resources')
 # for root, dir, files in os.walk(resources_dir):
