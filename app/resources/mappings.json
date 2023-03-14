@@ -1,15 +1,15 @@
 {
   "remoteaccess.yjaf.yjb.gov.uk": {
-    "recipient": "olivier.gaubert@necsws.com",
+    "recipient": "YJAFoperationsAWS@necsws.com",
     "recipientcc": ["Mick.Ewers@yjb.gov.uk"],
     "owner": "OE",
-    "external_cname": ["olivier.gaubert@necsws.com"]
+    "external_cname": ["YJAFoperationsAWS@necsws.com"]
   },
   "*.yjaf.yjb.gov.uk": {
-    "recipient": "olivier.gaubert@necsws.com",
+    "recipient": "YJAFoperationsAWS@necsws.com",
     "recipientcc": ["Mick.Ewers@yjb.gov.uk"],
     "owner": "OE",
-    "external_cname": ["olivier.gaubert@necsws.com"]
+    "external_cname": ["YJAFoperationsAWS@necsws.com"]
   },
   "uat.cshrcaseworkcma.justice.gov.uk": {
     "recipient": "Kat.Taylor@cshrcasework.justice.gov.uk",
