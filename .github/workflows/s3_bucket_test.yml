@@ -5,6 +5,9 @@ jobs:
   s3_bucket_test:
     name: Run the s3 bucket test
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: checkout repo content
         uses: actions/checkout@v3
