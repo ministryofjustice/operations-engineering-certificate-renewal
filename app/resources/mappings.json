@@ -42,7 +42,7 @@
     "external_cname": []
   },
   "avpn.paroleboard.gov.uk": {
-    "recipient": "Sean.Holgate@paroleboard.gov.uk",
+    "recipient": "support@paroleboard.gov.uk",
     "recipientcc": ["jay.aziz@coreazure.com"],
     "owner": "OE",
     "external_cname": []
