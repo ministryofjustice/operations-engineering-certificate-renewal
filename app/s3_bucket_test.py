@@ -15,6 +15,6 @@ print(f"Temp secret: {config['s3']['temp_secret']}")
 
 s3 = boto3.client('s3')
 with open('mappings.json', 'wb') as file:
-    s3.download_fileobj('BUCKET_NAME', 'OBJECT_NAME', file)
-    
+    s3.download_fileobj('operations-engineering-certificate-email', 'mappings.json', file)
+
     print(f"FILE: {file}")
