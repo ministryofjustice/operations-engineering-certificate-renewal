@@ -7,12 +7,13 @@ config_location = os.getenv(
 config = parse_config(config_location)
 file_path = './app/resources/s3_email_mapping.json'
 
-# s3 = boto3.client('s3')
-# s3.download_file(config.get(
-#     config['s3']['bucket_name']), config['s3']['object_name'], file_path)
+file_path = os.path.join(os.getcwd(), 'resources', 'mappings.json')
 
 s3 = boto3.client('s3')
-with open('mappings.json', 'wb') as file:
-    s3.download_fileobj('operations-engineering-certificate-email', 'mappings.json', file)
+s3.download_file('operations-engineering-certificate-email', 'mappings.json', file_path)
 
-    print(f"FILE: {file}")
+resources_dir = os.path.join(os.getcwd(), 'resources')
+for root, dir, files in os.walk(resources_dir):
+    for filename in files:
+        print(f"Filename: {filename}")
+        
