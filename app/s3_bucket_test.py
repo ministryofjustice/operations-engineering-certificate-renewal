@@ -15,7 +15,8 @@ s3 = boto3.client('s3')
 with open(file_path, 'wb') as file:
     s3.download_fileobj('operations-engineering-certificate-email', 'mappings.json', file)
 
-    print(f"FILE: {file}")
+with open(file_path) as my_file:
+    print(my_file.read())
 
 # resources_dir = os.path.join(os.getcwd(), 'resources')
 # for root, dir, files in os.walk(resources_dir):
