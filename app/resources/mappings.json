@@ -391,5 +391,11 @@
     "recipientcc": ["wayne.sims@neweratech.co.uk"],
     "owner": "OE",
     "external_cname": []
+  },
+  "cintra-vpn.cica.gov.uk": {
+    "recipient": "networkoperations@digital.justice.gov.uk",
+    "recipientcc": ["infrastructure@cica.gov.uk"],
+    "owner": "OE",
+    "external_cname": ["infrastructure@cica.gov.uk"]
   }
 }
