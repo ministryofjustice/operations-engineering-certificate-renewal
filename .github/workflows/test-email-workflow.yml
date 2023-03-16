@@ -1,0 +1,27 @@
+name: Certificate Expiry
+
+on:
+  workflow_dispatch:
+
+jobs:
+  certificate-expiry-check:
+    name: Run test script
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v3
+      - name: Python Setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install Python Packages from Requirements File
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: execute test email run
+        run: source run.sh test
+        env:
+          GANDI_API_KEY: ${{ secrets.GANDI_API_KEY }}
+          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+          S3_OBJECT_NAME: ${{ secrets.S3_OBJECT_NAME }}
