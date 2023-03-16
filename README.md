@@ -4,7 +4,7 @@
 
 This repository contains the scripts necessary to automate the manual SSL certificate renewal process. 
 
-The script is scheduled to run on a daily basis via GtiHub actions.
+The script is scheduled to run on a daily basis via GitHub actions.
 
 ### Running the Script Manually
 
