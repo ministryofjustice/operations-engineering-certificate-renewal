@@ -10,8 +10,11 @@ file_path = './app/resources/s3_email_mapping.json'
 
 s3 = boto3.client('s3')
 with open(file_path, 'wb') as file:
-    mappings = s3.download_fileobj(config['s3']['s3_bucket_name'], config['s3']['s3_object_name'], file)
-email_map = json.loads(mappings)
+    s3.download_fileobj(config['s3']['s3_bucket_name'], config['s3']['s3_object_name'], file)
 
-print(f"Email map in JSON: {mappings}")
+with open(file_path) as file:
+    mappings = file.read()
+
+email_map = json.loads(mappings)
+print(f" Email map: {email_map}")
 
