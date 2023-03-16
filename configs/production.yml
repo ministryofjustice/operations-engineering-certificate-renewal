@@ -9,6 +9,5 @@ urls:
 cert_expiry_thresholds: [30, 15, 1]
 reply_email: "certificates@digital.justice.gov.uk"
 s3:
-  bucket_name: !ENV ${EMAIL_MAP_S3_BUCKET}
-  object_name: !ENV ${EMAIL_MAP_FILE_NAME}
-  temp_secret: !ENV ${TEMP_SECRET}
+  s3_bucket_name: !ENV ${S3_BUCKET_NAME}
+  s3_object_name: !ENV ${S3_OBJECT_NAME}

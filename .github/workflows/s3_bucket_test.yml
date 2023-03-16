@@ -27,6 +27,5 @@ jobs:
       - name: execute test s3 bucket
         run: source run.sh s3test
         env:
-          EMAIL_MAP_S3_BUCKET: ${{ secrets.EMAIL_MAP_S3_BUCKET }}
-          EMAIL_MAP_FILE_NAME: ${{ secrets.EMAIL_MAP_FILE_NAME }}
-          TEMP_SECRET: ${{ secrets.TEMP_SECRET }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+          S3_OBJECT_NAME: ${{ secrets.S3_OBJECT_NAME }}
