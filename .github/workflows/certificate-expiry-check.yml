@@ -2,7 +2,7 @@ name: Certificate Expiry
 
 on:
   schedule:
-    - cron: '* 9 * * *'
+    - cron: '0 9 * * *'
 
 jobs:
   certificate-expiry-check:
@@ -24,3 +24,5 @@ jobs:
         env:
           GANDI_API_KEY: ${{ secrets.GANDI_API_KEY }}
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+          S3_OBJECT_NAME: ${{ secrets.S3_OBJECT_NAME }}
