@@ -1,6 +1,8 @@
 import datetime
 import json
 import os
+
+import boto3
 import requests
 from notifications_python_client.notifications import NotificationsAPIClient
 from pyaml_env import parse_config
@@ -98,7 +100,15 @@ def send_email(email_type, params):
 
 
 if __name__ == "__main__":
-    with open('app/resources/mappings.json') as file:
+
+    file_path = './app/resources/s3_email_mapping.json'
+    s3 = boto3.client('s3')
+
+    with open(file_path, 'wb') as file:
+        s3.download_fileobj(
+            config['s3']['s3_bucket_name'], config['s3']['s3_object_name'], file)
+    with open(file_path) as file:
         mappings = file.read()
+
     email_map = json.loads(mappings)
     find_expiring_certificates(email_map)

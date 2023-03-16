@@ -2,13 +2,12 @@ keys:
   gandi_api_key: !ENV ${GANDI_API_KEY}
   notify_api_key: !ENV ${NOTIFY_API_KEY}
 template_ids:
-  cert_expiry: "06abd028-0a8f-43d9-a122-90a92f9b62ee"
+  cert_expiry: !ENV ${EXPIRE_TEMPLATE_ID}
 urls:
   gandi_base_url: "https://api.gandi.net/"
   gandi_cert_url_extension: "v5/certificate/issued-certs"
 cert_expiry_thresholds: [30, 15, 1]
 reply_email: "certificates@digital.justice.gov.uk"
 s3:
-  bucket_name: !ENV ${EMAIL_MAP_S3_BUCKET}
-  object_name: !ENV ${EMAIL_MAP_FILE_NAME}
-  temp_secret: !ENV ${TEMP_SECRET}
+  s3_bucket_name: !ENV ${S3_BUCKET_NAME}
+  s3_object_name: !ENV ${S3_OBJECT_NAME}
