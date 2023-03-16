@@ -63,7 +63,6 @@ def build_params(domain_name: str, days: int, email_list, date, reply_email: str
         'end_date': str(date),
         'days': days
     }
-
     return params
 
 
@@ -73,11 +72,13 @@ def retrieve_email_list(domain: str, email_list):
     if domain_contains_external_cname:
         for email in email_list[domain]['external_cname']:
             filtered_email_list.append(email)
-            return filtered_email_list
+        filtered_email_list.append(config['reply_email'])
+        return filtered_email_list
     print(f"The domain exists and is owned by Operations Engineering.")
     filtered_email_list.append(email_list[domain]["recipient"])
     for email in email_list[domain]["recipientcc"]:
         filtered_email_list.append(email)
+    filtered_email_list.append(config['reply_email'])
     return filtered_email_list
 
 
@@ -87,16 +88,16 @@ def send_email(email_type, params):
         config['keys']['notify_api_key'])
 
     if email_type == 'expire':
-        try:
-            response = notifications_client.send_email_notification(
-                email_address='sam.pepper@digital.justice.gov.uk',
-                template_id=config['template_ids']['cert_expiry'],
-                personalisation=params
-            )
-        except requests.exceptions.HTTPError as api_key_error:
-            raise SystemExit(
-                f"You may need to export your Notify API Key:\n {api_key_error}")
-        return response
+        for email in params['email_addresses']:
+            try:
+                notifications_client.send_email_notification(
+                    email_address=email,
+                    template_id=config['template_ids']['cert_expiry'],
+                    personalisation=params
+                )
+            except requests.exceptions.HTTPError as api_key_error:
+                raise SystemExit(
+                    f"You may need to export your Notify API Key:\n {api_key_error}")
 
 
 if __name__ == "__main__":
