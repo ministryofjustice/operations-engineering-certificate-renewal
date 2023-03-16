@@ -1,4 +1,4 @@
-name: Certificate Expiry
+name: Test Email
 
 on:
   workflow_dispatch:
