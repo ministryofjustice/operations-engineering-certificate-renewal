@@ -13,7 +13,11 @@ def send_email():
         config['keys']['notify_api_key'])
     try:
         response = notifications_client.send_email_notification(
-            email_address='sam.pepper@digital.justice.gov.uk',
+            email_address=[
+                'sam.pepper@digital.justice.gov.uk',
+                'connor.glynn@digital.justice.gov.uk',
+                'nick.walters@digital.justice.gov.uk'
+            ],
             template_id='72cd9e80-cf0c-4504-bee8-3b1acc3f0f9b',
             personalisation={
                 "first_name": "Name",
