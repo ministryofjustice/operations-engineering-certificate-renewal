@@ -105,7 +105,8 @@ if __name__ == "__main__":
     s3 = boto3.client('s3')
 
     with open(file_path, 'wb') as file:
-        s3.download_fileobj(config['s3']['s3_bucket_name'], config['s3']['s3_object_name'], file)
+        s3.download_fileobj(
+            config['s3']['s3_bucket_name'], config['s3']['s3_object_name'], file)
     with open(file_path) as file:
         mappings = file.read()
 
