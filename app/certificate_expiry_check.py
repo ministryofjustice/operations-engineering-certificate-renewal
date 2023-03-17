@@ -68,8 +68,7 @@ def build_params(domain_name: str, days: int, email_list, date, reply_email: str
 
 def retrieve_email_list(domain: str, email_list):
     filtered_email_list = []
-    domain_contains_external_cname = email_list[domain]['external_cname'] is not None
-    if domain_contains_external_cname:
+    if email_list[domain]['external_cname']:
         for email in email_list[domain]['external_cname']:
             filtered_email_list.append(email)
         filtered_email_list.append(config['reply_email'])
@@ -87,8 +86,10 @@ def send_email(email_type, params):
     notifications_client = NotificationsAPIClient(
         config['keys']['notify_api_key'])
 
+    temporary_emails = ['sam.pepper@digital.justice.gov.uk']
+
     if email_type == 'expire':
-        for email in params['email_addresses']:
+        for email in temporary_emails:
             try:
                 notifications_client.send_email_notification(
                     email_address=email,

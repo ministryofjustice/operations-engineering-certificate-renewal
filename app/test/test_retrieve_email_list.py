@@ -21,6 +21,8 @@ class TestRetrieveEmailList(unittest.TestCase):
             test_data['test_list']
         )
 
+        print(f'RESULT: {result}')
+
         self.assertIn(test_data['test_list']
                       [test_data['test_domain']]['recipient'], result)
 
