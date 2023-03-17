@@ -87,6 +87,8 @@ def send_email(email_type, params):
 
     temporary_emails = ['sam.pepper@digital.justice.gov.uk']
 
+    print(f"ACTUAL EMAILS: {params['email_addresses']}")
+
     if email_type == 'expire':
         for email in temporary_emails:
             try:
