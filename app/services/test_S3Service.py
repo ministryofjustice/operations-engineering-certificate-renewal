@@ -19,7 +19,8 @@ class TestS3ServiceInnit(unittest.TestCase):
 class TestS3ServiceGetFile(unittest.TestCase):
 
     def test_returns_file_when_file_contains_json(self, mock_open: MagicMock):
-        mock_open.return_value.__enter__.return_value.read.return_value = json.dumps({"test": "json"})
+        mock_open.return_value.__enter__.return_value.read.return_value = json.dumps({
+                                                                                     "test": "json"})
         response = S3Service().get_json_file("", "", "")
         self.assertEqual(response, {"test": "json"})
 

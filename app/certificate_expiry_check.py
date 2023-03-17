@@ -22,7 +22,7 @@ def find_expiring_certificates(email_list):
     try:
         certificate_list = requests.get(
             url=config['urls']['gandi_base_url'] +
-                config['urls']['gandi_cert_url_extension'],
+            config['urls']['gandi_cert_url_extension'],
             params=params, headers=headers)
         certificate_list.raise_for_status()
     except requests.exceptions.HTTPError as authentication_error:
