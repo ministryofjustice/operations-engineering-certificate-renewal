@@ -93,7 +93,7 @@ def send_email(email_type, params):
             try:
                 notifications_client.send_email_notification(
                     email_address=email,
-                    template_id=str(config['template_ids']['cert_expiry']),
+                    template_id=config['template_ids']['cert_expiry'],
                     personalisation=params
                 )
             except requests.exceptions.HTTPError as api_key_error:

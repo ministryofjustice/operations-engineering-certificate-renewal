@@ -34,3 +34,4 @@ jobs:
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
           S3_OBJECT_NAME: ${{ secrets.S3_OBJECT_NAME }}
+          EXPIRE_TEMPLATE_ID: ${{ secrets.EXPIRE_TEMPLATE_ID }}
