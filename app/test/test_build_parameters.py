@@ -11,7 +11,6 @@ class TestBuildParameters(unittest.TestCase):
     def test_build_parameters_returns_expected_data(self, mock_retrieve_email_list):
         test_data = {
             "domain": "www.test.com",
-            "days": 24,
             "date": "2022-03-03",
             "reply_email": "reply@digital.gov.uk",
             "test_list": {'test': 'test'},
@@ -21,11 +20,10 @@ class TestBuildParameters(unittest.TestCase):
         mock_retrieve_email_list.return_value = test_data['test_email_addresses']
 
         result = certificate_expiry_check.build_params(
-            test_data['domain'], test_data['days'], test_data['test_list'], test_data['date'], test_data['reply_email']
+            test_data['domain'], test_data['test_list'], test_data['date'], test_data['reply_email']
         )
 
         self.assertEqual(result['domain_name'], test_data['domain'])
-        self.assertEqual(result['days'], test_data['days'])
         self.assertEqual(result['email_addresses'],
                          test_data['test_email_addresses'])
 
