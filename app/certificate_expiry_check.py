@@ -85,12 +85,8 @@ def send_email(email_type, params):
     notifications_client = NotificationsAPIClient(
         config['keys']['notify_api_key'])
 
-    temporary_emails = ['sam.pepper@digital.justice.gov.uk']
-
-    print(f"ACTUAL EMAILS: {params['email_addresses']}")
-
     if email_type == 'expire':
-        for email in temporary_emails:
+        for email in params['email_addresses']:
             try:
                 notifications_client.send_email_notification(
                     email_address=email,
