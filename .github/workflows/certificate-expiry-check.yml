@@ -1,8 +1,7 @@
 name: Certificate Expiry
 
 on:
-  schedule:
-    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 jobs:
   certificate-expiry-check:
