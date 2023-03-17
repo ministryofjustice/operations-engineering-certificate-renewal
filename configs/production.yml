@@ -2,7 +2,7 @@ keys:
   gandi_api_key: !ENV ${GANDI_API_KEY}
   notify_api_key: !ENV ${NOTIFY_API_KEY}
 template_ids:
-  cert_expiry: !ENV ${EXPIRE_TEMPLATE_ID}
+  cert_expiry: "06abd028-0a8f-43d9-a122-90a92f9b62ee"
 urls:
   gandi_base_url: "https://api.gandi.net/"
   gandi_cert_url_extension: "v5/certificate/issued-certs"
