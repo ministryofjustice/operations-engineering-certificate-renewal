@@ -41,7 +41,7 @@ def find_expiring_certificates(email_list):
             for threshold in config['cert_expiry_thresholds']:
                 if date == (datetime.datetime.today() + datetime.timedelta(days=threshold)).date():
                     send_email('expire', build_params(
-                        domain_item['cn'], threshold, email_list, date, config['reply_email']))
+                        domain_item['cn'], email_list, date, config['reply_email']))
                     break
 
 
@@ -54,14 +54,13 @@ def domain_validity_check(item, email_list):
     return False
 
 
-def build_params(domain_name: str, days: int, email_list, date, reply_email: str):
+def build_params(domain_name: str, email_list, date, reply_email: str):
     emails = retrieve_email_list(domain_name, email_list)
     params = {
         'email_addresses': emails,
         'domain_name': domain_name,
         'csr_email': reply_email,
-        'end_date': str(date),
-        'days': days
+        'end_date': str(date)
     }
     return params
 
@@ -86,10 +85,8 @@ def send_email(email_type, params):
     notifications_client = NotificationsAPIClient(
         config['keys']['notify_api_key'])
 
-    temporary_emails = ['sam.pepper@digital.justice.gov.uk']
-
     if email_type == 'expire':
-        for email in temporary_emails:
+        for email in params['email_addresses']:
             try:
                 notifications_client.send_email_notification(
                     email_address=email,
@@ -103,7 +100,7 @@ def send_email(email_type, params):
 
 if __name__ == "__main__":
 
-    file_path = './app/resources/s3_email_mapping.json'
+    file_path = './app/s3_email_mapping.json'
     s3 = boto3.client('s3')
 
     with open(file_path, 'wb') as file:
