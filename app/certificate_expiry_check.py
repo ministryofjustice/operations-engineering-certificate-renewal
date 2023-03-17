@@ -103,7 +103,7 @@ def send_email(email_type, params):
 
 if __name__ == "__main__":
 
-    file_path = './app/resources/s3_email_mapping.json'
+    file_path = './app/s3_email_mapping.json'
     s3 = boto3.client('s3')
 
     with open(file_path, 'wb') as file:
