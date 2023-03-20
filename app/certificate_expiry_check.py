@@ -1,11 +1,11 @@
 import datetime
-import json
 import os
 
-import boto3
 import requests
 from notifications_python_client.notifications import NotificationsAPIClient
 from pyaml_env import parse_config
+
+from app.services.S3Service import S3Service
 
 config_location = os.getenv(
     "CONFIG_CONTEXT", default="../configs/production.yml")
@@ -81,7 +81,6 @@ def retrieve_email_list(domain: str, email_list):
 
 
 def send_email(email_type, params):
-
     notifications_client = NotificationsAPIClient(
         config['keys']['notify_api_key'])
 
@@ -98,16 +97,12 @@ def send_email(email_type, params):
                     f"You may need to export your Notify API Key:\n {api_key_error}")
 
 
+def main():
+    s3_service = S3Service()
+    email_mappings = s3_service.get_json_file(config['s3']['s3_bucket_name'], config['s3']['s3_object_name'],
+                                              './app/s3_email_mapping.json')
+    find_expiring_certificates(email_mappings)
+
+
 if __name__ == "__main__":
-
-    file_path = './app/s3_email_mapping.json'
-    s3 = boto3.client('s3')
-
-    with open(file_path, 'wb') as file:
-        s3.download_fileobj(
-            config['s3']['s3_bucket_name'], config['s3']['s3_object_name'], file)
-    with open(file_path) as file:
-        mappings = file.read()
-
-    email_map = json.loads(mappings)
-    find_expiring_certificates(email_map)
+    main()
