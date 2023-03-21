@@ -4,11 +4,11 @@ import requests
 
 
 class GandiService:
-    def __init__(self, config) -> None:
+    def __init__(self, config, api_key, base_url, url_extension) -> None:
         self.config = config
-        self.headers = {'Authorization': 'ApiKey ' + config['keys']['gandi_api_key']}
+        self.headers = {'Authorization': 'ApiKey ' + api_key}
         self.params = {'per_page': 1000}
-        self.url = config['urls']['gandi_base_url'] + config['urls']['gandi_cert_url_extension']
+        self.url = base_url + url_extension
 
     def get_expiring_certificates(self, email_list):
         expired_certificates = {}

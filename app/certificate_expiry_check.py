@@ -13,15 +13,6 @@ config_location = os.getenv(
 config = parse_config(config_location)
 
 
-def find_expiring_certificates(email_list, certificate_list):
-    """
-    Finds all certificates that are due to expire, and sends an email if they meet the criteria.
-    """
-
-
-
-
-
 def build_params(domain_name: str, email_list, date, reply_email: str):
     emails = retrieve_email_list(domain_name, email_list)
     params = {
@@ -31,21 +22,6 @@ def build_params(domain_name: str, email_list, date, reply_email: str):
         'end_date': str(date)
     }
     return params
-
-
-def retrieve_email_list(domain: str, email_list):
-    filtered_email_list = []
-    if email_list[domain]['external_cname']:
-        for email in email_list[domain]['external_cname']:
-            filtered_email_list.append(email)
-        filtered_email_list.append(config['reply_email'])
-        return filtered_email_list
-    print(f"The domain exists and is owned by Operations Engineering.")
-    filtered_email_list.append(email_list[domain]["recipient"])
-    for email in email_list[domain]["recipientcc"]:
-        filtered_email_list.append(email)
-    filtered_email_list.append(config['reply_email'])
-    return filtered_email_list
 
 
 def send_email(email_type, params):
@@ -68,20 +44,23 @@ def send_email(email_type, params):
 def main():
     # Instantiate services
     s3_service = S3Service()
-    gandi_service = GandiService()
+    gandi_service = GandiService(config,
+                                 config['keys']['gandi_api_key'],
+                                 config['urls']['gandi_base_url'],
+                                 config['urls']['gandi_cert_url_extension'])
 
     # Get a list of the email mappings from S3
     email_mappings = s3_service.get_json_file(config['s3']['s3_bucket_name'], config['s3']['s3_object_name'],
                                               './app/s3_email_mapping.json')
 
     # Get a list of the expired certificates from Gandi
-    certificate_list = gandi_service.get_expiring_certificates(config)
+    certificate_list = gandi_service.get_expiring_certificates(email_mappings)
 
     # Send emails for the expired certificates using Notify
+    # TODO
 
     # Send report email to OE
-
-    find_expiring_certificates(email_mappings, certificate_list)
+    # TODO
 
 
 if __name__ == "__main__":
