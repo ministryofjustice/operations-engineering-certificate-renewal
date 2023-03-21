@@ -35,7 +35,8 @@ class TestGandiServiceGetExpiredCertificates(unittest.TestCase):
         }
 
         mock_request.return_value = mock_response
-        response = GandiService(self.config).get_expiring_certificates(test_email_list)
+        response = GandiService(
+            self.config).get_expiring_certificates(test_email_list)
 
         self.assertIn(self.test_domain_name, response)
 
@@ -57,7 +58,7 @@ class TestGandiServiceGetExpiredCertificates(unittest.TestCase):
                 "dates": {
                     "ends_at": self.set_gandi_date_format(True)
                 }
-            },
+        },
         ]
 
         test_email_list = {
@@ -76,7 +77,8 @@ class TestGandiServiceGetExpiredCertificates(unittest.TestCase):
         }
 
         mock_request.return_value = mock_response
-        response = GandiService(self.config).get_expiring_certificates(test_email_list)
+        response = GandiService(
+            self.config).get_expiring_certificates(test_email_list)
 
         self.assertIn(self.test_domain_name, response)
         self.assertIn(test_another_domain_name, response)
@@ -109,12 +111,13 @@ class TestGandiServiceGetExpiredCertificates(unittest.TestCase):
         }
 
         mock_request.return_value = mock_response
-        response = GandiService(self.config).get_expiring_certificates(test_email_list)
+        response = GandiService(
+            self.config).get_expiring_certificates(test_email_list)
 
         self.assertIn(test_email, response[self.test_domain_name]['emails'])
         self.assertIn(test_cc_mail, response[self.test_domain_name]['emails'])
-        self.assertIn(test_another_cc_mail, response[self.test_domain_name]['emails'])
-
+        self.assertIn(test_another_cc_mail,
+                      response[self.test_domain_name]['emails'])
 
     def test_does_not_return_certificate_with_invalid_status(self, mock_request: MagicMock):
         mock_response = MagicMock()
@@ -137,7 +140,8 @@ class TestGandiServiceGetExpiredCertificates(unittest.TestCase):
         }
 
         mock_request.return_value = mock_response
-        response = GandiService(self.config).get_expiring_certificates(test_email_list)
+        response = GandiService(
+            self.config).get_expiring_certificates(test_email_list)
 
         self.assertNotIn(self.test_domain_name, response)
 
@@ -162,7 +166,8 @@ class TestGandiServiceGetExpiredCertificates(unittest.TestCase):
         }
 
         mock_request.return_value = mock_response
-        response = GandiService(self.config).get_expiring_certificates(test_email_list)
+        response = GandiService(
+            self.config).get_expiring_certificates(test_email_list)
 
         self.assertNotIn(self.test_domain_name, response)
 
@@ -191,9 +196,11 @@ class TestGandiServiceGetExpiredCertificates(unittest.TestCase):
         }
 
         mock_request.return_value = mock_response
-        response = GandiService(self.config).get_expiring_certificates(test_email_list)
+        response = GandiService(
+            self.config).get_expiring_certificates(test_email_list)
 
-        self.assertIn(test_cname_user, response[self.test_domain_name]['emails'])
+        self.assertIn(test_cname_user,
+                      response[self.test_domain_name]['emails'])
 
     def test_returns_multiple_external_cname_if_present(self, mock_request: MagicMock):
         test_cname_user = 'cname.user@mail.com'
@@ -222,10 +229,13 @@ class TestGandiServiceGetExpiredCertificates(unittest.TestCase):
         }
 
         mock_request.return_value = mock_response
-        response = GandiService(self.config).get_expiring_certificates(test_email_list)
+        response = GandiService(
+            self.config).get_expiring_certificates(test_email_list)
 
-        self.assertIn(test_cname_user, response[self.test_domain_name]['emails'])
-        self.assertIn(test_another_cname_user, response[self.test_domain_name]['emails'])
+        self.assertIn(test_cname_user,
+                      response[self.test_domain_name]['emails'])
+        self.assertIn(test_another_cname_user,
+                      response[self.test_domain_name]['emails'])
 
     def set_gandi_date_format(self, valid: bool) -> str:
         future_days = self.config['cert_expiry_thresholds'][0] + 20
@@ -240,4 +250,3 @@ class TestGandiServiceGetExpiredCertificates(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-

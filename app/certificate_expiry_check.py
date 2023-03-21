@@ -19,9 +19,6 @@ def find_expiring_certificates(email_list, certificate_list):
     """
 
 
-
-
-
 def build_params(domain_name: str, email_list, date, reply_email: str):
     emails = retrieve_email_list(domain_name, email_list)
     params = {

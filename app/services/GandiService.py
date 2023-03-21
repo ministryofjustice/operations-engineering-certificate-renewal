@@ -6,9 +6,11 @@ import requests
 class GandiService:
     def __init__(self, config) -> None:
         self.config = config
-        self.headers = {'Authorization': 'ApiKey ' + config['keys']['gandi_api_key']}
+        self.headers = {'Authorization': 'ApiKey ' +
+                        config['keys']['gandi_api_key']}
         self.params = {'per_page': 1000}
-        self.url = config['urls']['gandi_base_url'] + config['urls']['gandi_cert_url_extension']
+        self.url = config['urls']['gandi_base_url'] + \
+            config['urls']['gandi_cert_url_extension']
 
     def get_expiring_certificates(self, email_list):
         expired_certificates = {}
@@ -37,7 +39,8 @@ class GandiService:
                                 for e in email_list[domain_item['cn']]['external_cname']:
                                     emails.append(e)
                             else:
-                                emails = [email_list[domain_item['cn']]['recipient']]
+                                emails = [
+                                    email_list[domain_item['cn']]['recipient']]
                                 if email_list[domain_item['cn']]['recipientcc']:
                                     for e in email_list[domain_item['cn']]['recipientcc']:
                                         emails.append(e)
@@ -46,4 +49,3 @@ class GandiService:
                                 "emails": emails
                             }
         return expired_certificates
-
