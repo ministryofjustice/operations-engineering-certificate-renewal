@@ -37,7 +37,8 @@ class GandiService:
                                 for e in email_list[domain_item['cn']]['external_cname']:
                                     emails.append(e)
                             else:
-                                emails = [email_list[domain_item['cn']]['recipient']]
+                                emails = [
+                                    email_list[domain_item['cn']]['recipient']]
                                 if email_list[domain_item['cn']]['recipientcc']:
                                     for e in email_list[domain_item['cn']]['recipientcc']:
                                         emails.append(e)
@@ -46,4 +47,3 @@ class GandiService:
                                 "emails": emails
                             }
         return expired_certificates
-
