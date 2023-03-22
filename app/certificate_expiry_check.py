@@ -54,7 +54,8 @@ def main():
                                               './app/s3_email_mapping.json')
 
     # Get a list of the expired certificates from Gandi
-    certificate_list = gandi_service.get_expiring_certificates(email_mappings)
+    certificate_list = gandi_service.get_certificate_list()
+    expired_certificates = gandi_service.get_expired_certificates(certificate_list, email_mappings)
 
     # Send emails for the expired certificates using Notify
     # TODO
