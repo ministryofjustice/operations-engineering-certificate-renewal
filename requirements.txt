@@ -3,3 +3,4 @@ requests
 gandi
 notifications-python-client
 pyaml-env
+freezegun
