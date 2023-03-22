@@ -1,16 +1,9 @@
-import datetime
-import os
-
 import requests
 from notifications_python_client.notifications import NotificationsAPIClient
-from pyaml_env import parse_config
 
-from app.services.S3Service import S3Service
+from app.config import config
 from app.services.GandiService import GandiService
-
-config_location = os.getenv(
-    "CONFIG_CONTEXT", default="../configs/production.yml")
-config = parse_config(config_location)
+from app.services.S3Service import S3Service
 
 
 def build_params(domain_name: str, email_list, date, reply_email: str):

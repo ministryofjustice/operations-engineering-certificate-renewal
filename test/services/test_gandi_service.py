@@ -2,9 +2,9 @@ import datetime
 import unittest
 
 from freezegun import freeze_time
-from pyaml_env import parse_config
 
 from app.services.GandiService import GandiService
+from test.test_config import test_config
 
 
 # @patch('requests.get')
@@ -14,7 +14,6 @@ from app.services.GandiService import GandiService
 @freeze_time("2023-02-01")
 class TestGetExpiredCertificates(unittest.TestCase):
     def setUp(self):
-        self.config = parse_config('../../configs/test.yml')
         self.test_domain_name = 'test.domain.gov.uk'
 
     def test_valid_certificate_list_returns_expected_domain(self):
@@ -36,7 +35,7 @@ class TestGetExpiredCertificates(unittest.TestCase):
             }
         }
 
-        response = GandiService(self.config, 'api_key', 'base_url', 'url_ext') \
+        response = GandiService(test_config, 'api_key', 'base_url', 'url_ext') \
             .get_expired_certificates_from_valid_certificate_list(
             test_data['test_certificate_list'],
             test_data['test_list'])
