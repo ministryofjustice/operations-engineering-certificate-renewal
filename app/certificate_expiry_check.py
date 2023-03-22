@@ -55,7 +55,8 @@ def main():
 
     # Get a list of the expired certificates from Gandi
     certificate_list = gandi_service.get_certificate_list()
-    expired_certificates = gandi_service.get_expired_certificates(certificate_list, email_mappings)
+    expired_certificates = gandi_service.get_expired_certificates(
+        certificate_list, email_mappings)
 
     # Send emails for the expired certificates using Notify
     # TODO

@@ -12,7 +12,8 @@ class GandiService:
 
     def get_certificate_list(self):
         try:
-            response = requests.get(url=self.url, params=self.params, headers=self.headers)
+            response = requests.get(
+                url=self.url, params=self.params, headers=self.headers)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.HTTPError as authentication_error:
@@ -25,7 +26,8 @@ class GandiService:
     def _get_email_address_of_domain_owners(self, domain_name, email_list):
         if email_list[domain_name]['external_cname']:
             return email_list[domain_name]['external_cname']
-        email_addresses_of_domain_owners = [email_list[domain_name]['recipient']]
+        email_addresses_of_domain_owners = [
+            email_list[domain_name]['recipient']]
         if email_list[domain_name]['recipientcc']:
             email_addresses_of_domain_owners.extend(
                 iter(email_list[domain_name]['recipientcc'])
@@ -49,7 +51,8 @@ class GandiService:
         for domain_item in certificate_list:
             if self._check_certificate_state(domain_item, email_list, 'valid') and \
                     self._is_certificate_owned_by_operations_engineering(domain_item, email_list):
-                expiry_date = self._format_expiry_date(domain_item['dates']['ends_at'])
+                expiry_date = self._format_expiry_date(
+                    domain_item['dates']['ends_at'])
                 valid_state_certificates[domain_item['cn']] = {
                     "expiry_date": expiry_date
                 }
@@ -62,7 +65,8 @@ class GandiService:
                 valid_state_certificate_list[domain_item]['expiry_date'])
             if days_between_now_and_expiry_date in self.config['cert_expiry_thresholds']:
                 email_addresses_of_domain_owners = \
-                    self._get_email_address_of_domain_owners(domain_item, email_list)
+                    self._get_email_address_of_domain_owners(
+                        domain_item, email_list)
                 expired_certificates[domain_item] = {
                     "days": days_between_now_and_expiry_date,
                     "emails": email_addresses_of_domain_owners
