@@ -1,47 +1,32 @@
-import datetime
 import unittest
 
 from freezegun import freeze_time
 
 from app.services.GandiService import GandiService
+from test.resources.test_data import TestData
 from test.test_config import test_config
 
 
-# @patch('requests.get')
-# class TestGandiServiceGetExpiredCertificates(unittest.TestCase):
-#     #TODO
-
-@freeze_time("2023-02-01")
+@freeze_time("2023-01-01")
 class TestGetExpiredCertificates(unittest.TestCase):
-    def setUp(self):
-        self.test_domain_name = 'test.domain.gov.uk'
-
     def test_valid_certificate_list_returns_expected_domain(self):
-        expiry_date = datetime.datetime.now() + datetime.timedelta(days=30)
-
-        test_data = {
-            "test_list": {
-                self.test_domain_name: {
-                    "recipient": "test.user@mail.com",
-                    "recipientcc": [],
-                    "owner": "OE",
-                    "external_cname": ["external.person@mail.com"]
-                }
-            },
-            'test_certificate_list': {
-                self.test_domain_name: {
-                    'expiry_date': expiry_date
-                }
-            }
-        }
-
         response = GandiService(test_config, 'api_key', 'base_url', 'url_ext') \
             .get_expired_certificates_from_valid_certificate_list(
-            test_data['test_certificate_list'],
-            test_data['test_list'])
+            TestData.generate_filtered_certificate_list_with_expiry_date(30),
+            TestData.generate_valid_email_list())
+        self.assertIn(TestData.test_domain_name, response)
 
-        print(f"Response: {response}")
-        self.assertIn(self.test_domain_name, response)
+
+@freeze_time("2023-01-01")
+class TestValidCertificateRetrieval(unittest.TestCase):
+    def test_only_valid_certificates_are_returned_from_list(self):
+        response = GandiService(test_config, 'api_key', 'base_url', 'url_ext') \
+            .get_certificates_in_valid_state(
+            TestData.generate_gandi_certificate_date('valid'),
+            TestData.generate_valid_email_list()
+        )
+
+        self.assertIn(TestData.test_domain_name, response)
 
 
 if __name__ == '__main__':
