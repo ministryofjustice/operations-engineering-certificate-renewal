@@ -10,19 +10,6 @@ class GandiService:
         self.params = {'per_page': 1000}
         self.url = base_url + url_extension
 
-    def get_certificate_list(self):
-        try:
-            response = requests.get(
-                url=self.url, params=self.params, headers=self.headers)
-            response.raise_for_status()
-            return response.json()
-        except requests.exceptions.HTTPError as authentication_error:
-            raise requests.exceptions.HTTPError(
-                f"You may need to export your Gandi API key:\n {authentication_error}") from authentication_error
-        except TypeError as api_key_error:
-            raise TypeError(
-                f"Gandi API key does not exist or is in the wrong format:\n {api_key_error}") from api_key_error
-
     def _get_email_address_of_domain_owners(self, domain_name, email_list):
         if email_list[domain_name]['external_cname']:
             return email_list[domain_name]['external_cname']
@@ -37,7 +24,7 @@ class GandiService:
     def _check_certificate_state(self, domain_item, email_list, certificate_state) -> bool:
         return domain_item['cn'] in email_list and domain_item['status'] == certificate_state
 
-    def _is_certificate_owned_by_operations_engineering(self, email_list, domain_item):
+    def _is_certificate_owned_by_operations_engineering(self, domain_item, email_list):
         return email_list[domain_item['cn']]['owner'] == 'OE'
 
     def _get_days_between_now_and_expiry_date(self, expiry_date):
@@ -45,6 +32,19 @@ class GandiService:
 
     def _format_expiry_date(self, date_string: str) -> datetime.date:
         return datetime.datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ').date()
+
+    def get_certificate_list(self):
+        try:
+            response = requests.get(
+                url=self.url, params=self.params, headers=self.headers)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.HTTPError as authentication_error:
+            raise requests.exceptions.HTTPError(
+                f"You may need to export your Gandi API key:\n {authentication_error}") from authentication_error
+        except TypeError as api_key_error:
+            raise TypeError(
+                f"Gandi API key does not exist or is in the wrong format:\n {api_key_error}") from api_key_error
 
     def get_certificates_in_valid_state(self, certificate_list, email_list):
         valid_state_certificates = {}
