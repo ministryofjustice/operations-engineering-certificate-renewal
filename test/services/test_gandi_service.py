@@ -41,7 +41,8 @@ class TestCertificateRetrievalValidity(unittest.TestCase):
         test_case_count = 3
         response = GandiService(test_config, 'api_key', 'base_url', 'url_ext') \
             .get_certificates_in_valid_state(
-            TestData.generate_multiple_gandi_certificate_states('valid', test_case_count),
+            TestData.generate_multiple_gandi_certificate_states(
+                'valid', test_case_count),
             TestData.generate_multiple_email_list(test_case_count)
         )
         for i in range(test_case_count):
@@ -49,9 +50,11 @@ class TestCertificateRetrievalValidity(unittest.TestCase):
 
     def test_only_valid_certificate_is_returned(self):
         test_case_count = 3
-        test_cases = TestData.generate_multiple_gandi_certificate_states('pending', test_case_count)
+        test_cases = TestData.generate_multiple_gandi_certificate_states(
+            'pending', test_case_count)
         test_cases += TestData.generate_single_gandi_certificate_state('valid')
-        test_email_list = TestData.generate_multiple_email_list(test_case_count)
+        test_email_list = TestData.generate_multiple_email_list(
+            test_case_count)
         test_email_list.update(TestData.generate_single_email_list())
 
         response = GandiService(test_config, 'api_key', 'base_url', 'url_ext') \
@@ -59,7 +62,7 @@ class TestCertificateRetrievalValidity(unittest.TestCase):
             test_cases,
             test_email_list
         )
-        
+
         for i in range(test_case_count):
             self.assertNotIn(TestData.test_domain_name_root + str(i), response)
         self.assertIn(TestData.test_domain_name_root, response)
