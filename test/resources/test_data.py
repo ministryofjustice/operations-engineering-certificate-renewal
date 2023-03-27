@@ -21,6 +21,5 @@ class TestData:
         return {cls.test_domain_name: {'expiry_date': expiry_date}}
 
     @classmethod
-    def generate_gandi_certificate_date(cls, state: str):
+    def generate_gandi_certificate_state(cls, state: str):
         return [{"cn": cls.test_domain_name, "status": state, "dates": {"ends_at": "2023-01-01T06:00:00Z"}}]
-
