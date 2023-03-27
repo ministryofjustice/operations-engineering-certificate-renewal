@@ -22,7 +22,7 @@ class TestValidCertificateRetrieval(unittest.TestCase):
     def test_only_valid_certificates_are_returned_from_list(self):
         response = GandiService(test_config, 'api_key', 'base_url', 'url_ext') \
             .get_certificates_in_valid_state(
-            TestData.generate_gandi_certificate_date('valid'),
+            TestData.generate_gandi_certificate_state('valid'),
             TestData.generate_valid_email_list()
         )
 
