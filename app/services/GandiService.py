@@ -71,4 +71,4 @@ class GandiService:
                     "days": days_between_now_and_expiry_date,
                     "emails": email_addresses_of_domain_owners
                 }
-            return expired_certificates
+        return expired_certificates
