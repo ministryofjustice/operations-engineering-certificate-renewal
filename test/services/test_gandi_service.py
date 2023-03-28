@@ -14,6 +14,7 @@ class TestGetExpiredCertificates(unittest.TestCase):
             .get_expired_certificates_from_valid_certificate_list(
             TestData.generate_filtered_certificate_list_with_expiry_date(30),
             TestData.generate_single_email_list())
+        
         self.assertIn(TestData.test_domain_name_root, response)
 
 
@@ -45,8 +46,10 @@ class TestCertificateRetrievalValidity(unittest.TestCase):
                 'valid', test_case_count),
             TestData.generate_multiple_email_list(test_case_count)
         )
-        for i in range(test_case_count):
-            self.assertIn(TestData.test_domain_name_root + str(i), response)
+
+        self.assertIn(f"{TestData.test_domain_name_root}0", response)
+        self.assertIn(f"{TestData.test_domain_name_root}1", response)
+        self.assertIn(f"{TestData.test_domain_name_root}2", response)
 
     def test_only_valid_certificate_is_returned(self):
         test_case_count = 3
@@ -63,8 +66,9 @@ class TestCertificateRetrievalValidity(unittest.TestCase):
             test_email_list
         )
 
-        for i in range(test_case_count):
-            self.assertNotIn(TestData.test_domain_name_root + str(i), response)
+        self.assertNotIn(f"{TestData.test_domain_name_root}0", response)
+        self.assertNotIn(f"{TestData.test_domain_name_root}1", response)
+        self.assertNotIn(f"{TestData.test_domain_name_root}2", response)
         self.assertIn(TestData.test_domain_name_root, response)
 
 
