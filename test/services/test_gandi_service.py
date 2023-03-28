@@ -14,7 +14,7 @@ class TestGetExpiredCertificates(unittest.TestCase):
             .get_expired_certificates_from_valid_certificate_list(
             TestData.generate_filtered_certificate_list_with_expiry_date(30),
             TestData.generate_single_email_list())
-        
+
         self.assertIn(TestData.test_domain_name_root, response)
 
 
