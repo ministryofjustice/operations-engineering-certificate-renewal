@@ -9,8 +9,10 @@ class TestData:
 
     @classmethod
     def generate_single_email_list(cls, owner: str = 'OE', recipcc: int = 0, cname: int = 0):
-        recipientcc = [f"{cls.test_recipientcc_email_root}{i}" for i in range(recipcc)]
-        external_cname = [f"{cls.test_cname_email_root}{i}" for i in range(cname)]
+        recipientcc = [
+            f"{cls.test_recipientcc_email_root}{i}" for i in range(recipcc)]
+        external_cname = [
+            f"{cls.test_cname_email_root}{i}" for i in range(cname)]
         return {
             cls.test_domain_name_root: {
                 "recipient": cls.test_recipient_email_root,
@@ -22,8 +24,10 @@ class TestData:
 
     @classmethod
     def generate_multiple_email_list(cls, count: int = 1, owner: str = 'OE', recipcc: int = 0, cname: int = 0):
-        recipientcc = [f"{cls.test_recipientcc_email_root}{i}" for i in range(recipcc)]
-        external_cname = [f"{cls.test_cname_email_root}{i}" for i in range(cname)]
+        recipientcc = [
+            f"{cls.test_recipientcc_email_root}{i}" for i in range(recipcc)]
+        external_cname = [
+            f"{cls.test_cname_email_root}{i}" for i in range(cname)]
         return {
             f"{cls.test_domain_name_root}{i}": {
                 "recipient": cls.test_recipient_email_root,
