@@ -62,3 +62,33 @@ class TestData:
             {"cn": f"{cls.test_domain_name_root}{i}", "status": state,
              "dates": {"ends_at": "2023-01-01T06:00:00Z"}, }
             for i in range(count)]
+
+    @classmethod
+    def generate_multiple_valid_certificate_list(cls, count: int = 1):
+        return {
+            f"{cls.test_domain_name_root}{i}":
+                {"expiry_date": "2023-01-01", "emails":
+                    [f"{cls.test_recipient_email_root}{i}"]}
+            for i in range(count)
+        }
+
+    @classmethod
+    def generate_single_valid_certificate_multiple_emails(cls, count: int = 1):
+        emails = [f"{cls.test_recipient_email_root}{i}" for i in range(count)]
+        return {
+            cls.test_domain_name_root:
+                {"expiry_date": "2023-01-01", "emails": emails}
+        }
+
+    @classmethod
+    def generate_multiple_email_parameter_list(cls, count: int = 1):
+        return [
+            {
+                'email_addresses': [f"{cls.test_recipient_email_root}{i}"],
+                'domain_name': f"{cls.test_domain_name_root}{i}",
+                'csr_email': 'test@example.com',
+                'end_date': '2023-01-01',
+            }
+            for i in range(count)
+        ]
+
