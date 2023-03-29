@@ -68,7 +68,7 @@ class GandiService:
                     self._get_email_address_of_domain_owners(
                         domain_item, email_list)
                 expired_certificates[domain_item] = {
-                    "days": days_between_now_and_expiry_date,
+                    "expiry_date": valid_state_certificate_list[domain_item]['expiry_date'],
                     "emails": email_addresses_of_domain_owners
                 }
         return expired_certificates
