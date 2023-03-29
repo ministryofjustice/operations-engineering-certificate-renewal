@@ -1,10 +1,77 @@
 import unittest
+from unittest.mock import patch, Mock
 
+import requests
 from freezegun import freeze_time
 
 from app.services.GandiService import GandiService
 from test.resources.test_data import TestData
 from test.test_config import test_config
+
+
+class TestGetCertificateList(unittest.TestCase):
+    def setUp(self):
+        self.config = {'key': 'value'}
+        self.api_key = 'my_api_key'
+        self.base_url = 'test_url'
+        self.url_extension = '/certificates'
+        self.gandi_service = GandiService(
+            test_config, self.api_key, self.base_url, self.url_extension)
+
+    @patch('requests.get')
+    def test_successful_retrieval(self, mock_get):
+        expected_data = [{'id': 1, 'name': 'example.com'},
+                         {'id': 2, 'name': 'example.net'}]
+        mock_response = Mock()
+        mock_response.json.return_value = expected_data
+        mock_response.raise_for_status.return_value = None
+        mock_get.return_value = mock_response
+
+        expected_result = expected_data
+        actual_result = self.gandi_service.get_certificate_list()
+
+        self.assertEqual(actual_result, expected_result)
+        mock_get.assert_called_once_with(
+            url=f'{self.base_url}/certificates',
+            params={'per_page': 1000},
+            headers={'Authorization': 'ApiKey my_api_key'},
+        )
+
+    @patch('requests.get')
+    def test_throws_http_error(self, mock_get):
+        mock_response = Mock()
+        mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError(
+            'Unauthorized')
+        mock_get.return_value = mock_response
+
+        with self.assertRaises(requests.exceptions.HTTPError) as context:
+            self.gandi_service.get_certificate_list()
+
+        expected_message = "You may need to export your Gandi API key:\n Unauthorized"
+        self.assertEqual(str(context.exception), expected_message)
+        mock_get.assert_called_once_with(
+            url=f'{self.base_url}/certificates',
+            params={'per_page': 1000},
+            headers={'Authorization': 'ApiKey my_api_key'},
+        )
+
+    @patch('requests.get')
+    def test_throws_type_error(self, mock_get):
+        mock_response = Mock()
+        mock_response.raise_for_status.side_effect = TypeError(
+            'Invalid API key')
+        mock_get.return_value = mock_response
+
+        with self.assertRaises(TypeError) as context:
+            self.gandi_service.get_certificate_list()
+
+        expected_message = "Gandi API key does not exist or is in the wrong format:\n Invalid API key"
+        self.assertEqual(str(context.exception), expected_message)
+        mock_get.assert_called_once_with(
+            url=f'{self.base_url}/certificates',
+            params={'per_page': 1000},
+            headers={'Authorization': 'ApiKey my_api_key'},
+        )
 
 
 @freeze_time("2023-01-01")

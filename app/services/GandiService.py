@@ -6,7 +6,7 @@ import requests
 class GandiService:
     def __init__(self, config, api_key, base_url, url_extension) -> None:
         self.config = config
-        self.headers = {'Authorization': 'ApiKey ' + api_key}
+        self.headers = {'Authorization': f'ApiKey {api_key}'}
         self.params = {'per_page': 1000}
         self.url = base_url + url_extension
 
