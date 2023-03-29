@@ -16,7 +16,8 @@ class TestBuildParameters(unittest.TestCase):
 
     def test_build_parameters_returns_multiple_expected_domains(self):
         test_case_count = 3
-        data = TestData.generate_multiple_valid_certificate_list(count=test_case_count)
+        data = TestData.generate_multiple_valid_certificate_list(
+            count=test_case_count)
         response = self.notify_service.build_email_parameter_list(data)
 
         self.assertIn(f"{TestData.test_domain_name_root}{0}",
@@ -28,7 +29,8 @@ class TestBuildParameters(unittest.TestCase):
 
     def test_build_parameters_returns_multiple_expected_domains_with_expected_email(self):
         test_case_count = 3
-        data = TestData.generate_multiple_valid_certificate_list(count=test_case_count)
+        data = TestData.generate_multiple_valid_certificate_list(
+            count=test_case_count)
         response = self.notify_service.build_email_parameter_list(data)
 
         self.assertIn(f"{TestData.test_recipient_email_root}{0}",
@@ -40,7 +42,8 @@ class TestBuildParameters(unittest.TestCase):
 
     def test_build_parameters_returns_multiple_expected_emails(self):
         test_case_count = 3
-        data = TestData.generate_single_valid_certificate_multiple_emails(count=test_case_count)
+        data = TestData.generate_single_valid_certificate_multiple_emails(
+            count=test_case_count)
         response = self.notify_service.build_email_parameter_list(data)
 
         self.assertIn(f"{TestData.test_recipient_email_root}",
@@ -60,7 +63,8 @@ class TestSendEmail(unittest.TestCase):
         self.notify_service = NotifyService(self.config, self.api_key)
 
     def test_send_emails_from_parameters_sends_emails(self, mock_send_email):
-        email_parameter_list = TestData.generate_multiple_email_parameter_list(count=3)
+        email_parameter_list = TestData.generate_multiple_email_parameter_list(
+            count=3)
         self.notify_service.send_emails_from_parameters(email_parameter_list)
         mock_send_email.assert_any_call(email_parameter_list[0])
         mock_send_email.assert_any_call(email_parameter_list[1])
@@ -72,10 +76,12 @@ class TestSendEmail(unittest.TestCase):
         mock_send_email.assert_not_called()
 
     def test_send_emails_from_parameters_handles_http_error(self, mock_send_email):
-        mock_send_email.side_effect = requests.exceptions.HTTPError('API Key error')
+        mock_send_email.side_effect = requests.exceptions.HTTPError(
+            'API Key error')
         email_parameter_list = TestData.generate_multiple_email_parameter_list()
         with self.assertRaises(requests.exceptions.HTTPError) as context:
-            self.notify_service.send_emails_from_parameters(email_parameter_list)
+            self.notify_service.send_emails_from_parameters(
+                email_parameter_list)
 
         expected_message = "API Key error"
         self.assertEqual(str(context.exception), expected_message)
