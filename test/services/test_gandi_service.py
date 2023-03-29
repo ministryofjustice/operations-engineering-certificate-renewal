@@ -15,11 +15,13 @@ class TestGetCertificateList(unittest.TestCase):
         self.api_key = 'my_api_key'
         self.base_url = 'test_url'
         self.url_extension = '/certificates'
-        self.gandi_service = GandiService(test_config, self.api_key, self.base_url, self.url_extension)
+        self.gandi_service = GandiService(
+            test_config, self.api_key, self.base_url, self.url_extension)
 
     @patch('requests.get')
     def test_successful_retrieval(self, mock_get):
-        expected_data = [{'id': 1, 'name': 'example.com'}, {'id': 2, 'name': 'example.net'}]
+        expected_data = [{'id': 1, 'name': 'example.com'},
+                         {'id': 2, 'name': 'example.net'}]
         mock_response = Mock()
         mock_response.json.return_value = expected_data
         mock_response.raise_for_status.return_value = None
@@ -38,7 +40,8 @@ class TestGetCertificateList(unittest.TestCase):
     @patch('requests.get')
     def test_throws_http_error(self, mock_get):
         mock_response = Mock()
-        mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError('Unauthorized')
+        mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError(
+            'Unauthorized')
         mock_get.return_value = mock_response
 
         with self.assertRaises(requests.exceptions.HTTPError) as context:
@@ -55,7 +58,8 @@ class TestGetCertificateList(unittest.TestCase):
     @patch('requests.get')
     def test_throws_type_error(self, mock_get):
         mock_response = Mock()
-        mock_response.raise_for_status.side_effect = TypeError('Invalid API key')
+        mock_response.raise_for_status.side_effect = TypeError(
+            'Invalid API key')
         mock_get.return_value = mock_response
 
         with self.assertRaises(TypeError) as context:
