@@ -35,3 +35,16 @@ class NotifyService:
     def send_emails_from_parameters(self, email_parameter_list):
         for email_parameters in email_parameter_list:
             self._send_email(email_parameters)
+
+    def send_test_email_from_parameters(self, email_parameter_list, test_email):
+        for email_parameters in email_parameter_list:
+            try:
+                NotificationsAPIClient(self.api_key).send_email_notification(
+                    email_address=test_email,
+                    template_id=self.config['template_ids']['cert_expiry'],
+                    personalisation=email_parameters
+                )
+            except requests.exceptions.HTTPError as api_key_error:
+                raise requests.exceptions.HTTPError(
+                    f"You may need to export your Notify API Key:\n {api_key_error}"
+                ) from api_key_error
