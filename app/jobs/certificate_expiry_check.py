@@ -54,7 +54,10 @@ def main(testrun: bool = False, test_email: str = ""):
 
 
 if __name__ == "__main__":
-    if sys.argv[1] == '-test':
-        main(True, sys.argv[2])
+    if len(sys.argv) > 1 and sys.argv[1] == '-test':
+        if len(sys.argv) > 2:
+            main(True, sys.argv[2])
+        else:
+            raise SystemExit('Email address of recipient expected.')
     else:
         main()
