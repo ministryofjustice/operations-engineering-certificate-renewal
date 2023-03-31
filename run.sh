@@ -8,6 +8,10 @@ elif [ $1 = "certexpire" ]
 then
   export CONFIG_CONTEXT="./configs/production.yml"
   python3 app/jobs/certificate_expiry_check.py
+elif [ $1 = "testrun" ]
+then
+  export CONFIG_CONTEXT="./configs/production.yml"
+  python3 app/jobs/certificate_expiry_check.py -test
 else
   echo "Run failed:" >&2
 fi
