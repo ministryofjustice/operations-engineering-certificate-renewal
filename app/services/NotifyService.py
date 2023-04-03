@@ -39,6 +39,7 @@ class NotifyService:
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
         print(f"Sending test email: {email_parameter_list} and email: {test_email}")
         for email_parameters in email_parameter_list:
+            print(f"Running through each email... {email_parameters} in {email_parameter_list}")
             try:
                 NotificationsAPIClient(self.api_key).send_email_notification(
                     email_address=test_email,
