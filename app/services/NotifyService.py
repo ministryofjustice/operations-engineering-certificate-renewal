@@ -45,7 +45,7 @@ class NotifyService:
                     email_address=test_email,
                     template_id=self.config['template_ids']['cert_expiry'],
                     personalisation={
-                        "email_addersses": "test mail",
+                        "email_addresses": "test mail",
                         "domain_name": "test_domain",
                         "csr_email": "test_csr",
                         "end_date": "test date"
