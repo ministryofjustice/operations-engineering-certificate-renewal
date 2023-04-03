@@ -50,7 +50,8 @@ def main(testrun: bool = False, test_email: str = ""):
         notify_service.send_emails_from_parameters(email_parameter_list)
 
     # Send report email to OE
-    notify_service.send_report_email_to_operations_engineering(email_parameter_list)
+    notify_service.send_report_email_to_operations_engineering(
+        email_parameter_list)
 
 
 if __name__ == "__main__":

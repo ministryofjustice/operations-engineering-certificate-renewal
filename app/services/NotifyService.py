@@ -58,10 +58,12 @@ class NotifyService:
 
     def send_emails_from_parameters(self, email_parameter_list):
         for email_parameters in email_parameter_list:
-            self._send_email(email_parameters, email_parameters['email_addresses'])
+            self._send_email(email_parameters,
+                             email_parameters['email_addresses'])
 
     def send_report_email_to_operations_engineering(self, email_parameter_list):
-        self._send_report_email(self._build_report_string(email_parameter_list))
+        self._send_report_email(
+            self._build_report_string(email_parameter_list))
 
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
         for email_parameters in email_parameter_list:
