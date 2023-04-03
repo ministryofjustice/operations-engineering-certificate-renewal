@@ -38,6 +38,7 @@ class NotifyService:
 
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
         for email_parameters in email_parameter_list:
+            print(f" Date to send: {email_parameters['end_date'].strftime('%d/%m/%Y')}")
             try:
                 NotificationsAPIClient(self.api_key).send_email_notification(
                     email_address=test_email,
@@ -45,7 +46,7 @@ class NotifyService:
                     personalisation={
                         "domain_name": email_parameters['domain_name'],
                         "csr_email": email_parameters['csr_email'],
-                        "end_date": email_parameters['end_date']
+                        "end_date": email_parameters['end_date'].strftime('%d/%m/%Y')
                     }
                 )
             except requests.exceptions.HTTPError as api_key_error:
