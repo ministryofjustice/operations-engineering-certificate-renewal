@@ -44,7 +44,12 @@ class NotifyService:
                 NotificationsAPIClient(self.api_key).send_email_notification(
                     email_address=test_email,
                     template_id=self.config['template_ids']['cert_expiry'],
-                    personalisation=email_parameters
+                    personalisation={
+                        "email_addersses": "test mail",
+                        "domain_name": "test_domain",
+                        "csr_email": "test_csr",
+                        "end_date": "test date"
+                    }
                 )
             except requests.exceptions.HTTPError as api_key_error:
                 raise requests.exceptions.HTTPError(
