@@ -40,12 +40,14 @@ class TestData:
 
     @classmethod
     def generate_single_filtered_certificate_list_with_expiry_date(cls, days: int):
-        expiry_date = (datetime.datetime.now() + datetime.timedelta(days=days)).date()
+        expiry_date = (datetime.datetime.now() +
+                       datetime.timedelta(days=days)).date()
         return {cls.test_domain_name_root: {"expiry_date": expiry_date}}
 
     @classmethod
     def generate_multiple_filtered_certificate_list_with_expiry_date(cls, days: int, count: int = 1):
-        expiry_date = (datetime.datetime.now() + datetime.timedelta(days=days)).date()
+        expiry_date = (datetime.datetime.now() +
+                       datetime.timedelta(days=days)).date()
         return {
             f"{cls.test_domain_name_root}{i}": {"expiry_date": expiry_date}
             for i in range(count)
