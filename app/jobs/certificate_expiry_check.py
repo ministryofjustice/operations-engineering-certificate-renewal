@@ -27,7 +27,7 @@ def main(testrun: bool = False, test_email: str = ""):
         './app/s3_email_mapping.json')
 
     # Get a list of the expired certificates from Gandi
-    print(f"Extracting certificate list from Gandi... EMAIL MAP: {email_mappings}")
+    print("Extracting certificate list from Gandi...")
     certificate_list = gandi_service.get_certificate_list()
     valid_certificate_list = gandi_service.get_certificates_in_valid_state(
         certificate_list, email_mappings)
@@ -36,13 +36,13 @@ def main(testrun: bool = False, test_email: str = ""):
     )
 
     # Build parameters to send emails
-    print(f"Building parameters to send emails... CERTIFICATE_LIST: {certificate_list}")
+    print("Building parameters to send emails...")
     email_parameter_list = notify_service.build_email_parameter_list(
         expired_certificate_list)
 
     # Send emails for the expired certificates using Notify based on whether it's a test run or not
     if testrun:
-        print(f"Sending test email report... EMAIL PARAMS: {email_parameter_list}")
+        print("Sending test email report...")
         notify_service.send_test_email_from_parameters(
             email_parameter_list, test_email)
     else:

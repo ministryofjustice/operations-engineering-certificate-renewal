@@ -37,18 +37,15 @@ class NotifyService:
             self._send_email(email_parameters)
 
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
-        print(f"Sending test email: {email_parameter_list} and email: {test_email}")
         for email_parameters in email_parameter_list:
-            print(f"Running through each email... {email_parameters} in {email_parameter_list}")
             try:
                 NotificationsAPIClient(self.api_key).send_email_notification(
                     email_address=test_email,
                     template_id=self.config['template_ids']['cert_expiry'],
                     personalisation={
-                        "email_addresses": "test mail",
-                        "domain_name": "test_domain",
-                        "csr_email": "test_csr",
-                        "end_date": "test date"
+                        "domain_name": email_parameters['domain_name'],
+                        "csr_email": email_parameters['csr_email'],
+                        "end_date": email_parameters['end_date']
                     }
                 )
             except requests.exceptions.HTTPError as api_key_error:
