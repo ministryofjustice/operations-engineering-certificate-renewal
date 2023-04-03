@@ -35,3 +35,4 @@ jobs:
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
           S3_OBJECT_NAME: ${{ secrets.S3_OBJECT_NAME }}
           EXPIRE_TEMPLATE_ID: ${{ secrets.EXPIRE_TEMPLATE_ID }}
+          REPORT_TEMPLATE_ID: ${{ secrets.REPORT_TEMPLATE_ID }}

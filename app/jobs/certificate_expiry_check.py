@@ -31,26 +31,27 @@ def main(testrun: bool = False, test_email: str = ""):
     certificate_list = gandi_service.get_certificate_list()
     valid_certificate_list = gandi_service.get_certificates_in_valid_state(
         certificate_list, email_mappings)
-    expired_certificate_list = gandi_service.get_expired_certificates_from_valid_certificate_list(
-        valid_certificate_list, email_mappings
-    )
+    if expired_certificate_list := gandi_service.get_expired_certificates_from_valid_certificate_list(
+            valid_certificate_list, email_mappings
+    ):
+        # Build parameters to send emails
+        print("Building parameters to send emails...")
+        email_parameter_list = notify_service.build_email_parameter_list(
+            expired_certificate_list)
 
-    # Build parameters to send emails
-    print("Building parameters to send emails...")
-    email_parameter_list = notify_service.build_email_parameter_list(
-        expired_certificate_list)
+        # Send emails for the expired certificates using Notify based on whether it's a test run or not
+        if testrun:
+            print("Sending test email report...")
+            notify_service.send_test_email_from_parameters(
+                email_parameter_list, test_email)
+        else:
+            print("Sending live emails...")
+            notify_service.send_emails_from_parameters(email_parameter_list)
 
-    # Send emails for the expired certificates using Notify based on whether it's a test run or not
-    if testrun:
-        print("Sending test email report...")
-        notify_service.send_test_email_from_parameters(
-            email_parameter_list, test_email)
-    else:
-        print("Sending live emails...")
-        notify_service.send_emails_from_parameters(email_parameter_list)
-
-    # Send report email to OE
-    # TODO
+        # Send report email to OE
+        print("Sending report to Operations Engineering...")
+        notify_service.send_report_email_to_operations_engineering(
+            email_parameter_list)
 
 
 if __name__ == "__main__":
