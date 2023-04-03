@@ -38,7 +38,6 @@ class NotifyService:
 
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
         for email_parameters in email_parameter_list:
-            print(f" Date to send: {email_parameters['end_date'].strftime('%d/%m/%Y')}")
             try:
                 NotificationsAPIClient(self.api_key).send_email_notification(
                     email_address=test_email,
