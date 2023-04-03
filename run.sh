@@ -11,6 +11,7 @@ then
 elif [ $1 = "testrun" ]
 then
   export CONFIG_CONTEXT="./configs/production.yml"
+  export PYTHONPATH="$PYTHONPATH:$(pwd)/app"
   python3 app/jobs/certificate_expiry_check.py -test $2
 else
   echo "Run failed:" >&2
