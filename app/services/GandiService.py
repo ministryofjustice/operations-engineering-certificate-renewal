@@ -28,10 +28,7 @@ class GandiService:
         return email_list[domain_item['cn']]['owner'] == 'OE'
 
     def _get_days_between_now_and_expiry_date(self, expiry_date):
-        print(f"EXPIRY DATE: {expiry_date}")
-        print(f"DATETIME: {datetime.datetime.now()}")
-        print(f"RESULT: {(expiry_date - datetime.datetime.now()).days}")
-        return (expiry_date - datetime.datetime.now()).days
+        return (expiry_date.date() - (datetime.datetime.now().date())).days
 
     def _format_expiry_date(self, date_string: str) -> datetime.date:
         return datetime.datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ').date()
