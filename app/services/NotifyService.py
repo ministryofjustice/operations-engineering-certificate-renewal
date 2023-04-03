@@ -19,8 +19,22 @@ class NotifyService:
             emails_parameter_list.append(params)
         return emails_parameter_list
 
-    def _send_email(self, email_params):
-        for email in email_params['email_addresses']:
+    def _send_report_email(self, report_string):
+        try:
+            NotificationsAPIClient(self.api_key).send_email_notification(
+                email_address='sam.pepper@digital.justice.gov.uk',
+                template_id=self.config['template_ids']['report'],
+                personalisation={
+                    "report": report_string
+                }
+            )
+        except requests.exceptions.HTTPError as api_key_error:
+            raise requests.exceptions.HTTPError(
+                f"You may need to export your Notify API Key:\n {api_key_error}"
+            ) from api_key_error
+
+    def _send_email(self, email_params, recipients):
+        for email in recipients:
             try:
                 NotificationsAPIClient(self.api_key).send_email_notification(
                     email_address=email,
@@ -36,23 +50,19 @@ class NotifyService:
                     f"You may need to export your Notify API Key:\n {api_key_error}"
                 ) from api_key_error
 
+    def _build_report_string(self, email_parameter_list):
+        return "".join(
+            f"{email_parameter['domain_name']} went to {email_parameter['email_addresses']}, expiring on: {email_parameter['end_date']} \n"
+            for email_parameter in email_parameter_list
+        )
+
     def send_emails_from_parameters(self, email_parameter_list):
         for email_parameters in email_parameter_list:
-            self._send_email(email_parameters)
+            self._send_email(email_parameters, email_parameters['email_addresses'])
+
+    def send_report_email_to_operations_engineering(self, email_parameter_list):
+        self._send_report_email(self._build_report_string(email_parameter_list))
 
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
         for email_parameters in email_parameter_list:
-            try:
-                NotificationsAPIClient(self.api_key).send_email_notification(
-                    email_address=test_email,
-                    template_id=self.config['template_ids']['cert_expiry'],
-                    personalisation={
-                        "domain_name": email_parameters['domain_name'],
-                        "csr_email": email_parameters['csr_email'],
-                        "end_date": email_parameters['end_date'].strftime('%d/%m/%Y')
-                    }
-                )
-            except requests.exceptions.HTTPError as api_key_error:
-                raise requests.exceptions.HTTPError(
-                    f"You may need to export your Notify API Key:\n {api_key_error}"
-                ) from api_key_error
+            self._send_email(email_parameters, [test_email])
