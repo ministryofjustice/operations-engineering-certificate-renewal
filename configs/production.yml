@@ -7,7 +7,7 @@ template_ids:
 urls:
   gandi_base_url: "https://api.gandi.net/"
   gandi_cert_url_extension: "v5/certificate/issued-certs"
-cert_expiry_thresholds: [30]
+cert_expiry_thresholds: [ 30, 24 ]
 reply_email: "certificates@digital.justice.gov.uk"
 s3:
   s3_bucket_name: !ENV ${S3_BUCKET_NAME}
