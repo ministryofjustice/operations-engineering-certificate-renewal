@@ -19,10 +19,10 @@ class NotifyService:
             emails_parameter_list.append(params)
         return emails_parameter_list
 
-    def _send_report_email(self, report_string):
+    def _send_report_email(self, report_string, email):
         try:
             NotificationsAPIClient(self.api_key).send_email_notification(
-                email_address='sam.pepper@digital.justice.gov.uk',
+                email_address=email,
                 template_id=self.config['template_ids']['report'],
                 personalisation={
                     "report": report_string
@@ -64,9 +64,9 @@ class NotifyService:
             self._send_email(email_parameters,
                              email_parameters['email_addresses'])
 
-    def send_report_email_to_operations_engineering(self, email_parameter_list):
+    def send_report_email_to_operations_engineering(self, email_parameter_list, test_email):
         self._send_report_email(
-            self._build_report_string(email_parameter_list))
+            self._build_report_string(email_parameter_list), test_email)
 
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
         for email_parameters in email_parameter_list:
