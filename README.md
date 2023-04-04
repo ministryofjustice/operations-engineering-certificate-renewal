@@ -16,10 +16,10 @@ Alternatively, you can use the following command from the application's root dir
 
 #### Note
 
-*For this to work, you will need to have exported all secrets used in the application's configuration as environment
+_For this to work, you will need to have exported all secrets used in the application's configuration as environment
 variables.
 This may prove to be difficult as most `api keys` are not viewable again once they are created, so it is generally
-recommended to only run the script through the GitHub Action.*
+recommended to only run the script through the GitHub Action._
 
 ### Triggering a Test Run
 
@@ -35,5 +35,3 @@ to.
 To run the unit tests, you can use the following command from the application's root directory:
 
 `source run.sh unittest`
-
-
