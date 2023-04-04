@@ -51,9 +51,10 @@ class NotifyService:
                 ) from api_key_error
 
     def _build_report_string(self, email_parameter_list):
+        new_line = '\n'
         return "".join(
             f"Domain Name: {email_parameter['domain_name']}\n"
-            f"Delivered to:\n{''.join([f'  - {address}' for address in email_parameter['email_addresses']])}\n"
+            f"Delivered to:\n{''.join([f'{address}{new_line}' for address in email_parameter['email_addresses']])}"
             f"\nExpiry Date: {email_parameter['end_date']} \n\n"
             for email_parameter in email_parameter_list
         )
