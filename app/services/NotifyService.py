@@ -52,7 +52,9 @@ class NotifyService:
 
     def _build_report_string(self, email_parameter_list):
         return "".join(
-            f"Domain Name: {email_parameter['domain_name']}\nDelivered to:\n{''.join([f'  - {address}' for address in email_parameter['email_addresses']])}Expiry Date: {email_parameter['end_date']} \n\n"
+            f"Domain Name: {email_parameter['domain_name']}\n"
+            f"Delivered to:\n{''.join([f'  - {address}' for address in email_parameter['email_addresses']])}\n"
+            f"\nExpiry Date: {email_parameter['end_date']} \n\n"
             for email_parameter in email_parameter_list
         )
 
