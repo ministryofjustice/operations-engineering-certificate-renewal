@@ -41,16 +41,18 @@ def main(testrun: bool = False, test_email: str = ""):
 
         # Send emails for the expired certificates using Notify based on whether it's a test run or not
         if testrun:
-            print("Sending test email report...")
+            print("Sending test emails...")
             notify_service.send_test_email_from_parameters(
+                email_parameter_list, test_email)
+            print("Sending test report...")
+            notify_service.send_report_email_to_operations_engineering(
                 email_parameter_list, test_email)
         else:
             print("Sending live emails...")
             notify_service.send_emails_from_parameters(email_parameter_list)
-
-        # Send report email to OE
-        print("Sending report to Operations Engineering...")
-        notify_service.send_report_email_to_operations_engineering(email_parameter_list)
+            print("Sending live report to Operations Engineering...")
+            notify_service.send_report_email_to_operations_engineering(
+                email_parameter_list, config['reply_email'])
 
 
 if __name__ == "__main__":
