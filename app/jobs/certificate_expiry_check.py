@@ -42,9 +42,11 @@ def main(testrun: bool = False, test_email: str = ""):
         # Send emails for the expired certificates using Notify based on whether it's a test run or not
         if testrun:
             print("Sending test emails...")
-            notify_service.send_test_email_from_parameters(email_parameter_list, test_email)
+            notify_service.send_test_email_from_parameters(
+                email_parameter_list, test_email)
             print("Building main report...")
-            main_report = notify_service.build_main_report_string(email_parameter_list)
+            main_report = notify_service.build_main_report_string(
+                email_parameter_list)
             print("Building undelivered email report...")
             undelivered_email_report = notify_service.check_for_undelivered_emails_for_template(
                 config['template_ids']['cert_expiry'])

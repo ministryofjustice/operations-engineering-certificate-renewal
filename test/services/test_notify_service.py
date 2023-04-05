@@ -67,9 +67,12 @@ class TestSendEmail(unittest.TestCase):
             count=3)
 
         self.notify_service.send_emails_from_parameters(email_parameter_list)
-        mock_send_email.assert_any_call(email_parameter_list[0], email_parameter_list[0]['email_addresses'])
-        mock_send_email.assert_any_call(email_parameter_list[1], email_parameter_list[1]['email_addresses'])
-        mock_send_email.assert_any_call(email_parameter_list[2], email_parameter_list[2]['email_addresses'])
+        mock_send_email.assert_any_call(
+            email_parameter_list[0], email_parameter_list[0]['email_addresses'])
+        mock_send_email.assert_any_call(
+            email_parameter_list[1], email_parameter_list[1]['email_addresses'])
+        mock_send_email.assert_any_call(
+            email_parameter_list[2], email_parameter_list[2]['email_addresses'])
 
     def test_email_does_not_send_with_empty_list(self, mock_send_email):
         email_parameter_list = []

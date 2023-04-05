@@ -79,24 +79,28 @@ class NotifyService:
                              email_parameters['email_addresses'])
 
     def send_report_email_to_operations_engineering(self, main_report, undelivered_email_report, email_address):
-        self._send_report_email(main_report, undelivered_email_report, email_address)
+        self._send_report_email(
+            main_report, undelivered_email_report, email_address)
 
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
         for email_parameters in email_parameter_list:
             self._send_email(email_parameters, [test_email])
 
     def check_for_undelivered_emails_for_template(self, template_id):
-        notifications = self._get_notifications_by_type_and_status('email', 'failed')['notifications']
+        notifications = self._get_notifications_by_type_and_status('email', 'failed')[
+            'notifications']
         today = datetime.now(timezone.utc).date()
 
         if len(notifications) == 0:
             print("No undelivered email notifications found.")
         else:
-            print(f"Undelivered email notifications for template ID {template_id} sent today:")
+            print(
+                f"Undelivered email notifications for template ID {template_id} sent today:")
             undelivered_emails = []
 
             for notification in notifications:
-                created_at = datetime.fromisoformat(notification['created_at']).date()
+                created_at = datetime.fromisoformat(
+                    notification['created_at']).date()
 
                 if notification['template']['id'] == template_id and created_at == today:
                     undelivered_email = {
