@@ -44,9 +44,16 @@ def main(testrun: bool = False, test_email: str = ""):
             print("Sending test emails...")
             notify_service.send_test_email_from_parameters(
                 email_parameter_list, test_email)
+            print("Building main report...")
+            main_report = notify_service.build_main_report_string(
+                email_parameter_list)
+            print("Building undelivered email report...")
+            undelivered_email_report = notify_service.check_for_undelivered_emails_for_template(
+                config['template_ids']['cert_expiry'])
             print("Sending test report...")
             notify_service.send_report_email_to_operations_engineering(
-                email_parameter_list, test_email)
+                main_report, notify_service.build_undeliverable_email_report_string(
+                    undelivered_email_report), test_email)
         else:
             print("Sending live emails...")
             notify_service.send_emails_from_parameters(email_parameter_list)
