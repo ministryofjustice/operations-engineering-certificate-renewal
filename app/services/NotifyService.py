@@ -13,7 +13,7 @@ class NotifyService:
     def _get_notifications_by_type_and_status(self, template_type, status):
         return NotificationsAPIClient(self.api_key).get_all_notifications(status=status, template_type=template_type)
 
-    def _send_report_email(self, report, template_id, email):
+    def send_report_email(self, report, template_id, email):
         try:
             NotificationsAPIClient(self.api_key).send_email_notification(
                 email_address=email,
@@ -68,6 +68,7 @@ class NotifyService:
     def build_undeliverable_email_report_string(self, undeliverable_email_list):
         if undeliverable_email_list == self.recipient_success_message:
             return undeliverable_email_list
+
         return "".join(
             f"Email Address: {undeliverable_email['email_address']}\n"
             f"Sent at: {undeliverable_email['created_at']}\n"
@@ -79,9 +80,6 @@ class NotifyService:
         for email_parameters in email_parameter_list:
             self._send_email(email_parameters,
                              email_parameters['email_addresses'])
-
-    def send_report_email_to_operations_engineering(self, report, template_id, email_address):
-        self._send_report_email(report, template_id, email_address)
 
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
         for email_parameters in email_parameter_list:
@@ -111,4 +109,4 @@ class NotifyService:
                     }
                     undelivered_emails.append(undelivered_email)
             return undelivered_emails
-        return self.recipient_success_message
+        return
