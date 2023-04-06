@@ -2,6 +2,7 @@ import datetime
 
 
 class TestData:
+    test_undeliverable_message = "permanent_failure"
     test_domain_name_root = "test.domain.gov.uk"
     test_recipient_email_root = "test.user@mail.com"
     test_recipientcc_email_root = "test.user.cc@mail.com"
@@ -93,3 +94,38 @@ class TestData:
             }
             for i in range(count)
         ]
+
+    @classmethod
+    def generate_main_report_single_domain_single_email(cls):
+        new_line = '\n'
+        return (
+            f"Domain Name: {cls.test_domain_name_root}\n"
+            f"Sent to:\n{''.join([f'{cls.test_recipient_email_root}{new_line}'])}"
+            f"\nExpiry Date: 2023-01-01 \n\n")
+
+    @classmethod
+    def generate_main_report_multiple_domain_multiple_email(cls, domain_count: int = 1, email_count: int = 1):
+        new_line = '\n'
+        return "".join(
+            f"Domain Name: {cls.test_domain_name_root}{i}\n"
+            f"Sent to:\n{''.join([f'{cls.test_recipient_email_root}{i}{new_line}' for i in range(email_count)])}"
+            "\nExpiry Date: 2023-01-01 \n\n"
+            for i in range(domain_count)
+        )
+
+    @classmethod
+    def generate_undeliverable_report_single_email(cls):
+        return "".join(
+            f"Email Address: {cls.test_recipient_email_root}\n"
+            "Sent at: 2023=01=01\n"
+            f"Status: {cls.test_undeliverable_message} \n\n"
+        )
+
+    @classmethod
+    def generate_undeliverable_report_multiple_email(cls, email_count):
+        return "".join(
+            f"Email Address: {cls.test_recipient_email_root}{i}\n"
+            "Sent at: 2023-01-01\n"
+            f"Status: {cls.test_undeliverable_message} \n\n"
+            for i in range(email_count)
+        )
