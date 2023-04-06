@@ -107,9 +107,9 @@ class NotifyService:
 
                 if notification['template']['id'] == template_id and created_at == today:
                     undelivered_email = {
-                        "email_address": {notification['email_address']},
-                        "created_at": {notification['created_at']},
-                        "status": {notification['status']}
+                        "email_address": notification['email_address'],
+                        "created_at": created_at,
+                        "status": notification['status']
                     }
                     undelivered_emails.append(undelivered_email)
             return undelivered_emails
