@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       email:
-        description: Who to email the test report to.
+        description: What is the email address of the recipient?
 jobs:
   certificate-expiry-check-test-run:
     name: Run certificate expiry script in test mode
