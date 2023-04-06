@@ -13,14 +13,13 @@ class NotifyService:
     def _get_notifications_by_type_and_status(self, template_type, status):
         return NotificationsAPIClient(self.api_key).get_all_notifications(status=status, template_type=template_type)
 
-    def _send_report_email(self, main_report, undelivered_email_report, email):
+    def _send_report_email(self, report, template_id, email):
         try:
             NotificationsAPIClient(self.api_key).send_email_notification(
                 email_address=email,
-                template_id=self.config['template_ids']['report'],
+                template_id=template_id,
                 personalisation={
-                    "main_report": main_report,
-                    "undelivered_email_report": undelivered_email_report
+                    "report": report
                 }
             )
         except requests.exceptions.HTTPError as api_key_error:
@@ -78,20 +77,17 @@ class NotifyService:
 
     def send_emails_from_parameters(self, email_parameter_list):
         for email_parameters in email_parameter_list:
-            self._send_email(email_parameters,
-                             email_parameters['email_addresses'])
+            self._send_email(email_parameters, email_parameters['email_addresses'])
 
-    def send_report_email_to_operations_engineering(self, main_report, undelivered_email_report, email_address):
-        self._send_report_email(
-            main_report, undelivered_email_report, email_address)
+    def send_report_email_to_operations_engineering(self, report, template_id, email_address):
+        self._send_report_email(report, template_id, email_address)
 
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
         for email_parameters in email_parameter_list:
             self._send_email(email_parameters, [test_email])
 
     def check_for_undelivered_emails_for_template(self, template_id):
-        notifications = self._get_notifications_by_type_and_status('email', 'failed')[
-            'notifications']
+        notifications = self._get_notifications_by_type_and_status('email', 'failed')['notifications']
         today = datetime.now(timezone.utc).date()
 
         if len(notifications) == 0:
