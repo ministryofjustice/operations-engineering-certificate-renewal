@@ -8,18 +8,18 @@ class NotifyService:
     def __init__(self, config, api_key):
         self.config = config
         self.api_key = api_key
+        self.recipient_success_message = "None, all emails delivered successfully."
 
     def _get_notifications_by_type_and_status(self, template_type, status):
         return NotificationsAPIClient(self.api_key).get_all_notifications(status=status, template_type=template_type)
 
-    def _send_report_email(self, main_report, undelivered_email_report, email):
+    def _send_report_email(self, report, template_id, email):
         try:
             NotificationsAPIClient(self.api_key).send_email_notification(
                 email_address=email,
-                template_id=self.config['template_ids']['report'],
+                template_id=template_id,
                 personalisation={
-                    "main_report": main_report,
-                    "undelivered_email_report": undelivered_email_report
+                    "report": report
                 }
             )
         except requests.exceptions.HTTPError as api_key_error:
@@ -60,12 +60,14 @@ class NotifyService:
         new_line = '\n'
         return "".join(
             f"Domain Name: {email_parameter['domain_name']}\n"
-            f"Delivered to:\n{''.join([f'{address}{new_line}' for address in email_parameter['email_addresses']])}"
+            f"Sent to:\n{''.join([f'{address}{new_line}' for address in email_parameter['email_addresses']])}"
             f"\nExpiry Date: {email_parameter['end_date']} \n\n"
             for email_parameter in email_parameter_list
         )
 
     def build_undeliverable_email_report_string(self, undeliverable_email_list):
+        if undeliverable_email_list == self.recipient_success_message:
+            return undeliverable_email_list
         return "".join(
             f"Email Address: {undeliverable_email['email_address']}\n"
             f"Sent at: {undeliverable_email['created_at']}\n"
@@ -78,9 +80,8 @@ class NotifyService:
             self._send_email(email_parameters,
                              email_parameters['email_addresses'])
 
-    def send_report_email_to_operations_engineering(self, main_report, undelivered_email_report, email_address):
-        self._send_report_email(
-            main_report, undelivered_email_report, email_address)
+    def send_report_email_to_operations_engineering(self, report, template_id, email_address):
+        self._send_report_email(report, template_id, email_address)
 
     def send_test_email_from_parameters(self, email_parameter_list, test_email):
         for email_parameters in email_parameter_list:
@@ -104,9 +105,10 @@ class NotifyService:
 
                 if notification['template']['id'] == template_id and created_at == today:
                     undelivered_email = {
-                        "Email Address": {notification['email_address']},
-                        "Sent at": {notification['created_at']},
-                        "Status": {notification['status']}
+                        "email_address": notification['email_address'],
+                        "created_at": created_at,
+                        "status": notification['status']
                     }
                     undelivered_emails.append(undelivered_email)
             return undelivered_emails
+        return self.recipient_success_message
