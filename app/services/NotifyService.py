@@ -77,7 +77,8 @@ class NotifyService:
 
     def send_emails_from_parameters(self, email_parameter_list):
         for email_parameters in email_parameter_list:
-            self._send_email(email_parameters, email_parameters['email_addresses'])
+            self._send_email(email_parameters,
+                             email_parameters['email_addresses'])
 
     def send_report_email_to_operations_engineering(self, report, template_id, email_address):
         self._send_report_email(report, template_id, email_address)
@@ -87,7 +88,8 @@ class NotifyService:
             self._send_email(email_parameters, [test_email])
 
     def check_for_undelivered_emails_for_template(self, template_id):
-        notifications = self._get_notifications_by_type_and_status('email', 'failed')['notifications']
+        notifications = self._get_notifications_by_type_and_status('email', 'failed')[
+            'notifications']
         today = datetime.now(timezone.utc).date()
 
         if len(notifications) == 0:
