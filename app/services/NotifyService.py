@@ -8,6 +8,7 @@ class NotifyService:
     def __init__(self, config, api_key):
         self.config = config
         self.api_key = api_key
+        self.recipient_success_message = "All emails delivered successfully."
 
     def _get_notifications_by_type_and_status(self, template_type, status):
         return NotificationsAPIClient(self.api_key).get_all_notifications(status=status, template_type=template_type)
@@ -66,6 +67,8 @@ class NotifyService:
         )
 
     def build_undeliverable_email_report_string(self, undeliverable_email_list):
+        if undeliverable_email_list == self.recipient_success_message:
+            return undeliverable_email_list
         return "".join(
             f"Email Address: {undeliverable_email['email_address']}\n"
             f"Sent at: {undeliverable_email['created_at']}\n"
@@ -110,3 +113,4 @@ class NotifyService:
                     }
                     undelivered_emails.append(undelivered_email)
             return undelivered_emails
+        return self.recipient_success_message
