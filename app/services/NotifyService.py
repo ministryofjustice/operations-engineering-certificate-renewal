@@ -92,8 +92,6 @@ class NotifyService:
         if len(notifications) == 0:
             print("No undelivered email notifications found.")
         else:
-            print(
-                f"Undelivered email notifications for template ID {template_id} sent today:")
             undelivered_emails = []
 
             for notification in notifications:
