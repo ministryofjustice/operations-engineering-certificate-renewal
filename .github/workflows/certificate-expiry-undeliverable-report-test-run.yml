@@ -1,4 +1,4 @@
-name: Certificate Expiry Undeliverable Report
+name: Certificate Expiry Undeliverable Report Test Run
 
 on:
   workflow_dispatch:
