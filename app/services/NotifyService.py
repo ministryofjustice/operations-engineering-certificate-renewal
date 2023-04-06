@@ -31,7 +31,7 @@ class NotifyService:
         for email in recipients:
             try:
                 NotificationsAPIClient(self.api_key).send_email_notification(
-                    email_address="fakemail8348347437787hrhg947h@outlook.com",
+                    email_address=email,
                     template_id=self.config['template_ids']['cert_expiry'],
                     personalisation={
                         "domain_name": email_params['domain_name'],
