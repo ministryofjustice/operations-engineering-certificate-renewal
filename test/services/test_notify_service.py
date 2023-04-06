@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime, timezone
 from unittest.mock import patch
 
 import requests
@@ -91,6 +92,7 @@ class TestSendEmail(unittest.TestCase):
         self.assertEqual(str(context.exception), expected_message)
 
 
+@patch("app.services.NotifyService.NotificationsAPIClient")
 class TestSendReportEmail(unittest.TestCase):
 
     def setUp(self):
@@ -100,7 +102,6 @@ class TestSendReportEmail(unittest.TestCase):
         self.ops_email = 'test_ops_email'
         self.notify_service = NotifyService(self.config, self.api_key)
 
-    @patch("app.services.NotifyService.NotificationsAPIClient")
     def test_send_main_report_is_sent_with_expected_data(self, mock_notifications_api_client):
         test_main_report_data = TestData.generate_main_report_single_domain_single_email()
 
@@ -116,7 +117,6 @@ class TestSendReportEmail(unittest.TestCase):
             }
         )
 
-    @patch("app.services.NotifyService.NotificationsAPIClient")
     def test_send_main_report_with_multiple_domains_is_sent_with_expected_data(self, mock_notifications_api_client):
         test_case_count = 3
         test_main_report_data = TestData.generate_main_report_multiple_domain_multiple_email(
@@ -134,7 +134,6 @@ class TestSendReportEmail(unittest.TestCase):
             }
         )
 
-    @patch("app.services.NotifyService.NotificationsAPIClient")
     def test_send_undeliverable_report_is_sent_with_expected_data(self, mock_notifications_api_client):
         test_undeliverable_report_data = TestData.generate_undeliverable_report_single_email()
 
@@ -150,7 +149,6 @@ class TestSendReportEmail(unittest.TestCase):
             }
         )
 
-    @patch("app.services.NotifyService.NotificationsAPIClient")
     def test_send_undeliverable_report_with_multiple_domains_is_sent_with_expected_data(
             self, mock_notifications_api_client):
         test_case_count = 3
@@ -168,3 +166,42 @@ class TestSendReportEmail(unittest.TestCase):
                 "report": test_undeliverable_report_data
             }
         )
+
+
+class TestCheckForUndeliveredEmailsFromNotify(unittest.TestCase):
+
+    def setUp(self):
+        self.config = test_config
+        self.api_key = 'test_api_key'
+        self.notify_service = NotifyService(self.config, self.api_key)
+        self.template_id = "test_template_id"
+
+    @patch.object(NotifyService, '_get_notifications_by_type_and_status')
+    def test_undelivered_emails_not_found_returns_none(self, mock_get_notifications_by_type_and_status):
+        mock_get_notifications_by_type_and_status.return_value = {
+            'notifications': []
+        }
+
+        result = self.notify_service.check_for_undelivered_emails_for_template(self.template_id)
+        self.assertIsNone(result)
+
+    @patch.object(NotifyService, '_get_notifications_by_type_and_status')
+    def test_undelivered_emails_found_returns_expected_data(self, mock_get_notifications_by_type_and_status):
+        today = datetime.now(timezone.utc).date()
+        mock_get_notifications_by_type_and_status.return_value = {
+            'notifications': [
+                {
+                    'template': {'id': self.template_id},
+                    'email_address': 'test@example.com',
+                    'created_at': today.isoformat(),
+                    'status': 'failed'
+                }
+            ]
+        }
+
+        result = self.notify_service.check_for_undelivered_emails_for_template(self.template_id)
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]['email_address'], 'test@example.com')
+        self.assertEqual(result[0]['created_at'], today)
+        self.assertEqual(result[0]['status'], 'failed')
