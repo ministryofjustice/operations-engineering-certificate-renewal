@@ -48,7 +48,7 @@ def main(testrun: bool = False, test_email: str = ""):
             report = notify_service.build_main_report_string(
                 email_parameter_list)
             print(f"Sending test report to {test_email}...")
-            notify_service.send_report_email_to_operations_engineering(
+            notify_service.send_report_email(
                 report, config['template_ids']['report'], test_email)
         else:
             print("Sending live emails...")
@@ -57,7 +57,7 @@ def main(testrun: bool = False, test_email: str = ""):
             report = notify_service.build_main_report_string(
                 email_parameter_list)
             print("Sending live report to Operations Engineering...")
-            notify_service.send_report_email_to_operations_engineering(
+            notify_service.send_report_email(
                 report, config['template_ids']['report'], config['reply_email'])
 
 
