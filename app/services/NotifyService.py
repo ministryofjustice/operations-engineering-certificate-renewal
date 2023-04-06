@@ -8,7 +8,7 @@ class NotifyService:
     def __init__(self, config, api_key):
         self.config = config
         self.api_key = api_key
-        self.recipient_success_message = "All emails delivered successfully."
+        self.recipient_success_message = "None, all emails delivered successfully."
 
     def _get_notifications_by_type_and_status(self, template_type, status):
         return NotificationsAPIClient(self.api_key).get_all_notifications(status=status, template_type=template_type)
@@ -32,7 +32,7 @@ class NotifyService:
         for email in recipients:
             try:
                 NotificationsAPIClient(self.api_key).send_email_notification(
-                    email_address=email,
+                    email_address="fakemail8348347437787hrhg947h@outlook.com",
                     template_id=self.config['template_ids']['cert_expiry'],
                     personalisation={
                         "domain_name": email_params['domain_name'],
