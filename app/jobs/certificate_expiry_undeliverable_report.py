@@ -13,7 +13,10 @@ def main(testrun: bool = False, test_email: str = ""):
     undelivered_email_report = notify_service.check_for_undelivered_emails_for_template(
         config['template_ids']['cert_expiry'])
 
-    if testrun:
+    if undelivered_email_report is None:
+        print("No undeliverable emails found, nice!")
+
+    elif testrun:
         print(f"Sending test undelivered email report to {test_email}...")
         notify_service.send_report_email(
             notify_service.build_undeliverable_email_report_string(
