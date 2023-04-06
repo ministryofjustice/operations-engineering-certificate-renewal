@@ -105,7 +105,8 @@ class TestSendReportEmail(unittest.TestCase):
         test_main_report_data = TestData.generate_main_report_single_domain_single_email()
 
         mock_notifications_api_client.return_value.send_email_notification.return_value = None
-        self.notify_service.send_report_email(test_main_report_data, self.template_id, self.ops_email)
+        self.notify_service.send_report_email(
+            test_main_report_data, self.template_id, self.ops_email)
 
         mock_notifications_api_client.return_value.send_email_notification.assert_called_once_with(
             email_address=self.ops_email,
@@ -122,7 +123,8 @@ class TestSendReportEmail(unittest.TestCase):
             test_case_count, test_case_count)
 
         mock_notifications_api_client.return_value.send_email_notification.return_value = None
-        self.notify_service.send_report_email(test_main_report_data, self.template_id, self.ops_email)
+        self.notify_service.send_report_email(
+            test_main_report_data, self.template_id, self.ops_email)
 
         mock_notifications_api_client.return_value.send_email_notification.assert_called_once_with(
             email_address=self.ops_email,
@@ -137,7 +139,8 @@ class TestSendReportEmail(unittest.TestCase):
         test_undeliverable_report_data = TestData.generate_undeliverable_report_single_email()
 
         mock_notifications_api_client.return_value.send_email_notification.return_value = None
-        self.notify_service.send_report_email(test_undeliverable_report_data, self.template_id, self.ops_email)
+        self.notify_service.send_report_email(
+            test_undeliverable_report_data, self.template_id, self.ops_email)
 
         mock_notifications_api_client.return_value.send_email_notification.assert_called_once_with(
             email_address=self.ops_email,
@@ -151,10 +154,12 @@ class TestSendReportEmail(unittest.TestCase):
     def test_send_undeliverable_report_with_multiple_domains_is_sent_with_expected_data(
             self, mock_notifications_api_client):
         test_case_count = 3
-        test_undeliverable_report_data = TestData.generate_undeliverable_report_multiple_email(test_case_count)
+        test_undeliverable_report_data = TestData.generate_undeliverable_report_multiple_email(
+            test_case_count)
 
         mock_notifications_api_client.return_value.send_email_notification.return_value = None
-        self.notify_service.send_report_email(test_undeliverable_report_data, self.template_id, self.ops_email)
+        self.notify_service.send_report_email(
+            test_undeliverable_report_data, self.template_id, self.ops_email)
 
         mock_notifications_api_client.return_value.send_email_notification.assert_called_once_with(
             email_address=self.ops_email,
