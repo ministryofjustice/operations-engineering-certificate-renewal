@@ -15,12 +15,12 @@ def main(testrun: bool = False, test_email: str = ""):
 
     if testrun:
         print(f"Sending test undelivered email report to {test_email}...")
-        notify_service.send_report_email_to_operations_engineering(
+        notify_service.send_report_email(
             notify_service.build_undeliverable_email_report_string(
                 undelivered_email_report), config['template_ids']['undelivered_report'], test_email)
     else:
         print("Sending live report to Operations Engineering...")
-        notify_service.send_report_email_to_operations_engineering(
+        notify_service.send_report_email(
             notify_service.build_undeliverable_email_report_string(
                 undelivered_email_report), config['template_ids']['undelivered_report'], config['reply_email'])
 

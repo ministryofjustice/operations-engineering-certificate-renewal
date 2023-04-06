@@ -89,3 +89,82 @@ class TestSendEmail(unittest.TestCase):
 
         expected_message = "API Key error"
         self.assertEqual(str(context.exception), expected_message)
+
+
+class TestSendReportEmail(unittest.TestCase):
+
+    def setUp(self):
+        self.config = test_config
+        self.api_key = 'test_api_key'
+        self.template_id = 'test_template_id'
+        self.ops_email = 'test_ops_email'
+        self.notify_service = NotifyService(self.config, self.api_key)
+
+    @patch("app.services.NotifyService.NotificationsAPIClient")
+    def test_send_main_report_is_sent_with_expected_data(self, mock_notifications_api_client):
+        test_main_report_data = TestData.generate_main_report_single_domain_single_email()
+
+        mock_notifications_api_client.return_value.send_email_notification.return_value = None
+        self.notify_service.send_report_email(
+            test_main_report_data, self.template_id, self.ops_email)
+
+        mock_notifications_api_client.return_value.send_email_notification.assert_called_once_with(
+            email_address=self.ops_email,
+            template_id=self.template_id,
+            personalisation={
+                "report": test_main_report_data
+            }
+        )
+
+    @patch("app.services.NotifyService.NotificationsAPIClient")
+    def test_send_main_report_with_multiple_domains_is_sent_with_expected_data(self, mock_notifications_api_client):
+        test_case_count = 3
+        test_main_report_data = TestData.generate_main_report_multiple_domain_multiple_email(
+            test_case_count, test_case_count)
+
+        mock_notifications_api_client.return_value.send_email_notification.return_value = None
+        self.notify_service.send_report_email(
+            test_main_report_data, self.template_id, self.ops_email)
+
+        mock_notifications_api_client.return_value.send_email_notification.assert_called_once_with(
+            email_address=self.ops_email,
+            template_id=self.template_id,
+            personalisation={
+                "report": test_main_report_data
+            }
+        )
+
+    @patch("app.services.NotifyService.NotificationsAPIClient")
+    def test_send_undeliverable_report_is_sent_with_expected_data(self, mock_notifications_api_client):
+        test_undeliverable_report_data = TestData.generate_undeliverable_report_single_email()
+
+        mock_notifications_api_client.return_value.send_email_notification.return_value = None
+        self.notify_service.send_report_email(
+            test_undeliverable_report_data, self.template_id, self.ops_email)
+
+        mock_notifications_api_client.return_value.send_email_notification.assert_called_once_with(
+            email_address=self.ops_email,
+            template_id=self.template_id,
+            personalisation={
+                "report": test_undeliverable_report_data
+            }
+        )
+
+    @patch("app.services.NotifyService.NotificationsAPIClient")
+    def test_send_undeliverable_report_with_multiple_domains_is_sent_with_expected_data(
+            self, mock_notifications_api_client):
+        test_case_count = 3
+        test_undeliverable_report_data = TestData.generate_undeliverable_report_multiple_email(
+            test_case_count)
+
+        mock_notifications_api_client.return_value.send_email_notification.return_value = None
+        self.notify_service.send_report_email(
+            test_undeliverable_report_data, self.template_id, self.ops_email)
+
+        mock_notifications_api_client.return_value.send_email_notification.assert_called_once_with(
+            email_address=self.ops_email,
+            template_id=self.template_id,
+            personalisation={
+                "report": test_undeliverable_report_data
+            }
+        )
