@@ -1,0 +1,42 @@
+name: Certificate Expiry Undeliverable Report
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: What is the email address of the recipient?
+jobs:
+  certificate-expiry-check:
+    name: Run certificate expiry undeliverable report script
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: ${{secrets.AWS_ID}}
+          aws-region: eu-west-2
+      - name: checkout repo content
+        uses: actions/checkout@v3
+      - name: Python Setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install Python Packages from Requirements File
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: execute certificate expiry undeliverable report run
+        run: source run.sh testreport ${{ github.event.inputs.email }}
+        env:
+          GANDI_API_KEY: ${{ secrets.GANDI_API_KEY }}
+          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+          S3_OBJECT_NAME: ${{ secrets.S3_OBJECT_NAME }}
+          EXPIRE_TEMPLATE_ID: ${{ secrets.EXPIRE_TEMPLATE_ID }}
+          REPORT_TEMPLATE_ID: ${{ secrets.REPORT_TEMPLATE_ID }}
+          UNDELIVERED_REPORT_TEMPLATE_ID: ${{ secrets.UNDELIVERED_REPORT_TEMPLATE_ID }}
+
