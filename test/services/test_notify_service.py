@@ -182,7 +182,8 @@ class TestCheckForUndeliveredEmailsFromNotify(unittest.TestCase):
             'notifications': []
         }
 
-        result = self.notify_service.check_for_undelivered_emails_for_template(self.template_id)
+        result = self.notify_service.check_for_undelivered_emails_for_template(
+            self.template_id)
         self.assertIsNone(result)
 
     @patch.object(NotifyService, '_get_notifications_by_type_and_status')
@@ -199,7 +200,8 @@ class TestCheckForUndeliveredEmailsFromNotify(unittest.TestCase):
             ]
         }
 
-        result = self.notify_service.check_for_undelivered_emails_for_template(self.template_id)
+        result = self.notify_service.check_for_undelivered_emails_for_template(
+            self.template_id)
 
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]['email_address'], 'test@example.com')
