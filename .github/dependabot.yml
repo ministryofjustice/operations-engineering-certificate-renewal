@@ -9,27 +9,34 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+      time: "09:00" # UTC
   - package-ecosystem: "terraform"
     directory: "/terraform"
     schedule:
       interval: "daily"
+      time: "09:00" # UTC
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
+      time: "09:00" # UTC
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "daily"
+      time: "09:00" # UTC
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
+      time: "09:00" # UTC
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
       interval: "daily"
+      time: "09:00" # UTC
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "daily"
+      time: "09:00" # UTC
