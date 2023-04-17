@@ -1,7 +1,8 @@
 name: Certificate Expiry Undeliverable Report
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '10 9 * * *'
 
 jobs:
   certificate-expiry-check:
