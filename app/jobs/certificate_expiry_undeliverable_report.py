@@ -13,8 +13,6 @@ def main(testrun: bool = False, test_email: str = ""):
     undelivered_email_report = notify_service.check_for_undelivered_emails_for_template(
         config['template_ids']['cert_expiry'])
 
-    print(f"Undelivered emails: {undelivered_email_report}")
-
     if len(undelivered_email_report) == 0:
         print("No undeliverable emails found, nice!")
 

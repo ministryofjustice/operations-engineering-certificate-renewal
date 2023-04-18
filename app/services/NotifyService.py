@@ -89,8 +89,6 @@ class NotifyService:
             'notifications']
         today = datetime.now(timezone.utc).date()
 
-        print(f"Initial notifications: {notifications}")
-
         undelivered_emails = []
 
         for notification in notifications:
