@@ -15,7 +15,7 @@ def main(testrun: bool = False, test_email: str = ""):
 
     print(f"Undelivered emails: {undelivered_email_report}")
 
-    if undelivered_email_report is None:
+    if len(undelivered_email_report) == 0:
         print("No undeliverable emails found, nice!")
 
     elif testrun:

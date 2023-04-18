@@ -91,21 +91,17 @@ class NotifyService:
 
         print(f"Initial notifications: {notifications}")
 
-        if len(notifications) == 0:
-            print("No undelivered email notifications found.")
-        else:
-            undelivered_emails = []
+        undelivered_emails = []
 
-            for notification in notifications:
-                created_at = datetime.fromisoformat(
-                    notification['created_at']).date()
+        for notification in notifications:
+            created_at = datetime.fromisoformat(
+                notification['created_at']).date()
 
-                if notification['template']['id'] == template_id and created_at == today:
-                    undelivered_email = {
-                        "email_address": notification['email_address'],
-                        "created_at": created_at,
-                        "status": notification['status']
-                    }
-                    undelivered_emails.append(undelivered_email)
-            return undelivered_emails
-        return
+            if notification['template']['id'] == template_id and created_at == today:
+                undelivered_email = {
+                    "email_address": notification['email_address'],
+                    "created_at": created_at,
+                    "status": notification['status']
+                }
+                undelivered_emails.append(undelivered_email)
+        return undelivered_emails
