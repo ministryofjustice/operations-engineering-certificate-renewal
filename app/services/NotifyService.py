@@ -89,6 +89,8 @@ class NotifyService:
             'notifications']
         today = datetime.now(timezone.utc).date()
 
+        print(f"Initial notifications: {notifications}")
+
         if len(notifications) == 0:
             print("No undelivered email notifications found.")
         else:
