@@ -38,4 +38,13 @@ jobs:
           EXPIRE_TEMPLATE_ID: ${{ secrets.EXPIRE_TEMPLATE_ID }}
           REPORT_TEMPLATE_ID: ${{ secrets.REPORT_TEMPLATE_ID }}
           UNDELIVERED_REPORT_TEMPLATE_ID: ${{ secrets.UNDELIVERED_REPORT_TEMPLATE_ID }}
+      - name: Report failure to Slack
+        if: always()
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+          notify_when: 'failure'
+          notification_title: 'Failed GitHub Action Run'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
