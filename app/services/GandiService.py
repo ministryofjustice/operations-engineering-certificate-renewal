@@ -38,6 +38,7 @@ class GandiService:
             response = requests.get(
                 url=self.url + org_id, headers=self.headers)
             response.raise_for_status()
+            print(f"AMount: {int(response.json()['prepaid']['amount'])}")
             return int(response.json()['prepaid']['amount'])
         except requests.exceptions.HTTPError as authentication_error:
             raise requests.exceptions.HTTPError(
