@@ -1,12 +1,11 @@
-name: Certificate Expiry Undeliverable Report
+name: Request Gandi Funds
 
 on:
-  schedule:
-    - cron: '10 9 * * *'
+  workflow_dispatch:
 
 jobs:
-  certificate-expiry-check:
-    name: Run certificate expiry undeliverable report script
+  request-gandi-funds:
+    name: Run the check to see if more Gandi funds are needed.
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -22,16 +21,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: execute certificate expiry undeliverable report run
-        run: source run.sh report
+      - name: execute the request gandi funds script
+        run: source run.sh gandifunds
         env:
           GANDI_API_KEY: ${{ secrets.GANDI_API_KEY }}
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-          S3_OBJECT_NAME: ${{ secrets.S3_OBJECT_NAME }}
-          EXPIRE_TEMPLATE_ID: ${{ secrets.EXPIRE_TEMPLATE_ID }}
-          REPORT_TEMPLATE_ID: ${{ secrets.REPORT_TEMPLATE_ID }}
-          UNDELIVERED_REPORT_TEMPLATE_ID: ${{ secrets.UNDELIVERED_REPORT_TEMPLATE_ID }}
+          REQUEST_GANDI_FUNDS_TEMPLATE_ID: ${{ secrets.REQUEST_GANDI_FUNDS_TEMPLATE_ID }}
+          REQUEST_GANDI_FUNDS_REPORT_TEMPLATE_ID: ${{ secrets.REQUEST_GANDI_FUNDS_REPORT_TEMPLATE_ID }}
+          GANDI_ORG_ID: ${{ secrets.GANDI_ORG_ID }}
       - name: Report failure to Slack
         if: always()
         uses: ravsamhq/notify-slack-action@v2
@@ -41,4 +38,3 @@ jobs:
           notification_title: 'Failed GitHub Action Run'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
