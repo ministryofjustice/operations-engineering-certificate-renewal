@@ -103,3 +103,9 @@ class NotifyService:
                 }
                 undelivered_emails.append(undelivered_email)
         return undelivered_emails
+
+    def send_gandi_fund_request(self, template_id, email, topup_amount, remaining_balance):
+        print('Nothing going.')
+
+    def send_gandi_fund_report(self, template_id, email, topup_amount, remaining_balance):
+        print('Nothing going.')
