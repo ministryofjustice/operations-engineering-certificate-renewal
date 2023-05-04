@@ -5,11 +5,18 @@ template_ids:
   cert_expiry: !ENV ${EXPIRE_TEMPLATE_ID}
   report: !ENV ${REPORT_TEMPLATE_ID}
   undelivered_report: !ENV ${UNDELIVERED_REPORT_TEMPLATE_ID}
+  request_gandi_funds: !ENV ${REQUEST_GANDI_FUNDS_TEMPLATE_ID}
+  request_gandi_funds_report: !ENV ${REQUEST_GANDI_FUNDS_REPORT_TEMPLATE_ID}
 urls:
   gandi_base_url: "https://api.gandi.net/"
   gandi_cert_url_extension: "v5/certificate/issued-certs"
-cert_expiry_thresholds: [30]
+  gandi_billing_url_extension: "v5/billing/info/"
+cert_expiry_thresholds: [ 30 ]
 reply_email: "certificates@digital.justice.gov.uk"
+gandi:
+  gandi_funds_email: "SoftwareAssetManagement@justice.gov.uk"
+  gandi_org_id: !ENV ${GANDI_ORG_ID}
+
 s3:
   s3_bucket_name: !ENV ${S3_BUCKET_NAME}
   s3_object_name: !ENV ${S3_OBJECT_NAME}

@@ -1,8 +1,7 @@
 name: Request Gandi Funds
 
 on:
-  schedule:
-    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 jobs:
   request-gandi-funds:
@@ -27,6 +26,9 @@ jobs:
         env:
           GANDI_API_KEY: ${{ secrets.GANDI_API_KEY }}
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
+          REQUEST_GANDI_FUNDS_TEMPLATE_ID: ${{ secrets.REQUEST_GANDI_FUNDS_TEMPLATE_ID }}
+          REQUEST_GANDI_FUNDS_REPORT_TEMPLATE_ID: ${{ secrets.REQUEST_GANDI_FUNDS_REPORT_TEMPLATE_ID }}
+          GANDI_ORG_ID: ${{ secrets.GANDI_ORG_ID }}
       - name: Report failure to Slack
         if: always()
         uses: ravsamhq/notify-slack-action@v2
