@@ -1,7 +1,8 @@
 name: Request Gandi Funds
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 17 * * 5'
 
 jobs:
   request-gandi-funds:
