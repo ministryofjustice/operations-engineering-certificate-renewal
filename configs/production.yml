@@ -11,7 +11,7 @@ urls:
   gandi_base_url: "https://api.gandi.net/"
   gandi_cert_url_extension: "v5/certificate/issued-certs"
   gandi_billing_url_extension: "v5/billing/info/"
-cert_expiry_thresholds: [ 30 ]
+cert_expiry_thresholds: [30]
 reply_email: "certificates@digital.justice.gov.uk"
 gandi:
   gandi_funds_email: "SoftwareAssetManagement@justice.gov.uk"

@@ -13,7 +13,8 @@ def main():
         config,
         config['keys']['notify_api_key'])
 
-    current_account_balance = gandi_service.get_current_account_balance_from_org(config['gandi']['gandi_org_id'])
+    current_account_balance = gandi_service.get_current_account_balance_from_org(
+        config['gandi']['gandi_org_id'])
 
     if current_account_balance < config['gandi']['balance_threshold']:
         notify_service.send_gandi_fund_email(
