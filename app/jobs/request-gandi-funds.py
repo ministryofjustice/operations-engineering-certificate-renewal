@@ -4,7 +4,6 @@ from app.services.NotifyService import NotifyService
 
 
 def main():
-    # Set up the services
     gandi_service = GandiService(
         config,
         config['keys']['gandi_api_key'],
@@ -14,12 +13,9 @@ def main():
         config,
         config['keys']['notify_api_key'])
 
-    # Get the current account amount from the organisation page and send emails:
     current_account_balance = gandi_service.get_current_account_balance_from_org(config['gandi']['gandi_org_id'])
 
-    # config['gandi']['balance_threshold']
-
-    if current_account_balance < 500:
+    if current_account_balance < config['gandi']['balance_threshold']:
         notify_service.send_gandi_fund_email(
             config['template_ids']['request_gandi_funds'],
             config['gandi']['gandi_funds_email'],
