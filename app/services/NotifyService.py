@@ -107,7 +107,7 @@ class NotifyService:
     def send_gandi_fund_email(self, template_id, email, remaining_amount):
         try:
             NotificationsAPIClient(self.api_key).send_email_notification(
-                email_address="sam.pepper@digital.justice.gov.uk",
+                email_address=email,
                 template_id=template_id,
                 personalisation={
                     "remaining_amount": remaining_amount,
