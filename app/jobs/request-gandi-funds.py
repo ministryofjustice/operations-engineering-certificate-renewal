@@ -17,17 +17,17 @@ def main():
     # Get the current account amount from the organisation page and send emails:
     current_account_balance = gandi_service.get_current_account_balance_from_org(config['gandi']['gandi_org_id'])
 
-    if current_account_balance < config['gandi']['balance_threshold']:
-        notify_service.send_gandi_fund_request(
+    # config['gandi']['balance_threshold']
+
+    if current_account_balance < 500:
+        notify_service.send_gandi_fund_email(
             config['template_ids']['request_gandi_funds'],
             config['gandi']['gandi_funds_email'],
-            config['gandi']['topup_amount'],
             current_account_balance
         )
-        notify_service.send_gandi_fund_report(
+        notify_service.send_gandi_fund_email(
             config['template_ids']['request_gandi_funds_report'],
             config['reply_email'],
-            config['gandi']['topup_amount'],
             current_account_balance
         )
 
