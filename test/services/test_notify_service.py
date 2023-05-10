@@ -93,6 +93,37 @@ class TestSendEmail(unittest.TestCase):
 
 
 @patch("app.services.NotifyService.NotificationsAPIClient")
+class TestSendGandiFundEmail(unittest.TestCase):
+    def setUp(self):
+        self.config = test_config
+        self.api_key = 'test_api_key'
+        self.notify_service = NotifyService(self.config, self.api_key)
+
+    def test_send_gandi_fund_email_success(self, mock_notifications_api_client):
+        self.notify_service.send_gandi_fund_email(
+            'test_template_id', 'test_email', 'test_remaining_amount')
+
+        mock_notifications_api_client.assert_called_once_with('test_api_key')
+        mock_notifications_api_client.return_value.send_email_notification.assert_called_once_with(
+            email_address='test_email',
+            template_id='test_template_id',
+            personalisation={
+                "remaining_amount": 'test_remaining_amount',
+                "topup_amount": 'test_amount'
+            }
+        )
+
+    def test_send_gandi_fund_throws_error_when_expected(self, mock_notifications_api_client):
+        mock_notifications_api_client.return_value.send_email_notification.side_effect = requests.exceptions.HTTPError
+
+        with self.assertRaises(requests.exceptions.HTTPError):
+            self.notify_service.send_gandi_fund_email(
+                'test_template_id', 'test_email', 'test_remaining_amount')
+
+        mock_notifications_api_client.assert_called_once_with('test_api_key')
+
+
+@patch("app.services.NotifyService.NotificationsAPIClient")
 class TestSendReportEmail(unittest.TestCase):
 
     def setUp(self):

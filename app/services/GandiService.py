@@ -33,6 +33,19 @@ class GandiService:
     def _format_expiry_date(self, date_string: str) -> datetime.date:
         return datetime.datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ').date()
 
+    def get_current_account_balance_from_org(self, org_id):
+        try:
+            response = requests.get(
+                url=self.url + org_id, headers=self.headers)
+            response.raise_for_status()
+            return float(response.json()['prepaid']['amount'])
+        except requests.exceptions.HTTPError as authentication_error:
+            raise requests.exceptions.HTTPError(
+                f"You may need to export your Gandi API key:\n {authentication_error}") from authentication_error
+        except TypeError as api_key_error:
+            raise TypeError(
+                f"Gandi API key does not exist or is in the wrong format:\n {api_key_error}") from api_key_error
+
     def get_certificate_list(self):
         try:
             response = requests.get(
