@@ -11,5 +11,8 @@ test_config = {
         "gandi_cert_url_extension": "test_cert_url_extension",
     },
     "cert_expiry_thresholds": [30, 15, 1],
-    "reply_email": "test_reply_email"
+    "reply_email": "test_reply_email",
+    "gandi": {
+        "topup_amount": "test_amount"
+    }
 }
