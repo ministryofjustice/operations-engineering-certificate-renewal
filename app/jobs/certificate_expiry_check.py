@@ -31,7 +31,6 @@ def main(testrun: bool = False, test_email: str = ""):
     certificate_list = gandi_service.get_certificate_list()
     valid_certificate_list = gandi_service.get_certificates_in_valid_state(
         certificate_list, email_mappings)
-    print(f"VALID CERTIFICATES: {valid_certificate_list}")
     if expired_certificate_list := gandi_service.get_expired_certificates_from_valid_certificate_list(
             valid_certificate_list, email_mappings
     ):
@@ -60,6 +59,8 @@ def main(testrun: bool = False, test_email: str = ""):
             print("Sending live report to Operations Engineering...")
             notify_service.send_report_email(
                 report, config['template_ids']['report'], config['reply_email'])
+    else:
+        print("No expiring certificates found.")
 
 
 if __name__ == "__main__":
