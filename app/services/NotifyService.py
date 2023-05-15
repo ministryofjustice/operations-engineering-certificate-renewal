@@ -3,6 +3,8 @@ from datetime import datetime, timezone
 import requests
 from notifications_python_client.notifications import NotificationsAPIClient
 
+from app import utilities
+
 
 class NotifyService:
     def __init__(self, config, api_key):
@@ -28,12 +30,14 @@ class NotifyService:
 
     def _send_email(self, email_params, recipients):
         for email in recipients:
+            domain_name = utilities.remove_suffix_if_present(
+                email_params['domain_name'])
             try:
                 NotificationsAPIClient(self.api_key).send_email_notification(
                     email_address=email,
                     template_id=self.config['template_ids']['cert_expiry'],
                     personalisation={
-                        "domain_name": email_params['domain_name'],
+                        "domain_name": domain_name,
                         "csr_email": email_params['csr_email'],
                         "end_date": email_params['end_date'].strftime('%d/%m/%Y')
                     }
@@ -58,7 +62,7 @@ class NotifyService:
     def build_main_report_string(self, email_parameter_list):
         new_line = '\n'
         return "".join(
-            f"Domain Name: {email_parameter['domain_name']}\n"
+            f"Domain Name: {utilities.remove_suffix_if_present(email_parameter['domain_name'])}\n"
             f"Sent to:\n{''.join([f'{address}{new_line}' for address in email_parameter['email_addresses']])}"
             f"\nExpiry Date: {email_parameter['end_date']} \n\n"
             for email_parameter in email_parameter_list

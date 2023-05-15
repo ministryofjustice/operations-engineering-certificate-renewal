@@ -172,6 +172,19 @@ class TestCertificateRetrievalValidity(unittest.TestCase):
         self.assertIn(f"{TestData.test_domain_name_root}1", response)
         self.assertIn(f"{TestData.test_domain_name_root}2", response)
 
+    def test_multiple_valid_certificates_returned_with_same_domain_name(self):
+        test_case_count = 3
+        response = GandiService(test_config, 'api_key', 'base_url', 'url_ext') \
+            .get_certificates_in_valid_state(
+            TestData.generate_multiple_gandi_certificate_states_same_domain_name(
+                'valid', test_case_count),
+            TestData.generate_single_email_list()
+        )
+
+        self.assertIn(f"{TestData.test_domain_name_root}", response)
+        self.assertIn(f"{TestData.test_domain_name_root}.1", response)
+        self.assertIn(f"{TestData.test_domain_name_root}.2", response)
+
     def test_only_valid_certificate_is_returned(self):
         test_case_count = 3
         test_cases = TestData.generate_multiple_gandi_certificate_states(

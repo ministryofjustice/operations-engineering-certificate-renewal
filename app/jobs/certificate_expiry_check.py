@@ -59,6 +59,8 @@ def main(testrun: bool = False, test_email: str = ""):
             print("Sending live report to Operations Engineering...")
             notify_service.send_report_email(
                 report, config['template_ids']['report'], config['reply_email'])
+    else:
+        print("No expiring certificates found.")
 
 
 if __name__ == "__main__":

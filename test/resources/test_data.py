@@ -40,6 +40,23 @@ class TestData:
         }
 
     @classmethod
+    def generate_multiple_email_list_same_domain_name(cls, count: int = 1, owner: str = 'OE', recipcc: int = 0,
+                                                      cname: int = 0):
+        recipientcc = [
+            f"{cls.test_recipientcc_email_root}{i}" for i in range(recipcc)]
+        external_cname = [
+            f"{cls.test_cname_email_root}{i}" for i in range(cname)]
+        return {
+            f"{cls.test_domain_name_root}": {
+                "recipient": cls.test_recipient_email_root,
+                "recipientcc": recipientcc,
+                "owner": owner,
+                "external_cname": external_cname,
+            }
+            for i in range(count)
+        }
+
+    @classmethod
     def generate_single_filtered_certificate_list_with_expiry_date(cls, days: int):
         expiry_date = (datetime.datetime.now() +
                        datetime.timedelta(days=days)).date()
@@ -65,6 +82,17 @@ class TestData:
             {"cn": f"{cls.test_domain_name_root}{i}", "status": state,
              "dates": {"ends_at": "2023-01-01T06:00:00Z"}, }
             for i in range(count)]
+
+    @classmethod
+    def generate_multiple_gandi_certificate_states_same_domain_name(cls, state: str, count: int = 1):
+        return [
+            {
+                "cn": f"{cls.test_domain_name_root}",
+                "status": state,
+                "dates": {"ends_at": "2023-01-01T06:00:00Z"},
+            }
+            for _ in range(count)
+        ]
 
     @classmethod
     def generate_multiple_valid_certificate_list(cls, count: int = 1):
