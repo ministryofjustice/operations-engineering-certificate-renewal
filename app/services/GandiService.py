@@ -84,8 +84,6 @@ class GandiService:
         for domain_item in valid_state_certificate_list:
             days_between_now_and_expiry_date = self._get_days_between_now_and_expiry_date(
                 valid_state_certificate_list[domain_item]['expiry_date'])
-            print(f"DOMAIN_ITEM: {domain_item}")
-            print(f"DAYS: {days_between_now_and_expiry_date}")
             if days_between_now_and_expiry_date in self.config['cert_expiry_thresholds']:
                 email_addresses_of_domain_owners = \
                     self._get_email_address_of_domain_owners(
