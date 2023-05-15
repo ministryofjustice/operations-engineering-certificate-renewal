@@ -2,6 +2,8 @@ import datetime
 
 import requests
 
+from app import utilities
+
 
 class GandiService:
     def __init__(self, config, api_key, base_url, url_extension) -> None:
@@ -11,13 +13,14 @@ class GandiService:
         self.url = base_url + url_extension
 
     def _get_email_address_of_domain_owners(self, domain_name, email_list):
-        if email_list[domain_name]['external_cname']:
-            return email_list[domain_name]['external_cname']
+        domain_name_to_check = utilities.remove_suffix_if_present(domain_name)
+        if email_list[domain_name_to_check]['external_cname']:
+            return email_list[domain_name_to_check]['external_cname']
         email_addresses_of_domain_owners = [
-            email_list[domain_name]['recipient']]
-        if email_list[domain_name]['recipientcc']:
+            email_list[domain_name_to_check]['recipient']]
+        if email_list[domain_name_to_check]['recipientcc']:
             email_addresses_of_domain_owners.extend(
-                iter(email_list[domain_name]['recipientcc'])
+                iter(email_list[domain_name_to_check]['recipientcc'])
             )
         return email_addresses_of_domain_owners
 
