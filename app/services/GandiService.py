@@ -68,14 +68,14 @@ class GandiService:
                     self._is_certificate_owned_by_operations_engineering(domain_item, email_list):
                 expiry_date = self._format_expiry_date(
                     domain_item['dates']['ends_at'])
-                if domain_item['cn'] in valid_state_certificates:
-                    valid_state_certificates[domain_item['cn'] + ".2"] = {
-                        "expiry_date": expiry_date
-                    }
-                else:
-                    valid_state_certificates[domain_item['cn']] = {
-                        "expiry_date": expiry_date
-                    }
+                base_cn = domain_item['cn']
+                suffix = 0
+                while base_cn in valid_state_certificates:
+                    suffix += 1
+                    base_cn = f"{domain_item['cn']}.{suffix}"
+                valid_state_certificates[base_cn] = {
+                    "expiry_date": expiry_date
+                }
         return valid_state_certificates
 
     def get_expired_certificates_from_valid_certificate_list(self, valid_state_certificate_list: dict, email_list):

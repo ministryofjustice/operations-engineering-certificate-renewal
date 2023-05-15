@@ -26,14 +26,19 @@ class NotifyService:
                 f"You may need to export your Notify API Key:\n {api_key_error}"
             ) from api_key_error
 
+    def _remove_suffix_if_present(self, domain_name):
+        base, sep, suffix = domain_name.rpartition('.')
+        return base if sep == '.' and suffix.isdigit() else domain_name
+
     def _send_email(self, email_params, recipients):
         for email in recipients:
+            domain_name = self._remove_suffix_if_present(email_params['domain_name'])
             try:
                 NotificationsAPIClient(self.api_key).send_email_notification(
                     email_address=email,
                     template_id=self.config['template_ids']['cert_expiry'],
                     personalisation={
-                        "domain_name": email_params['domain_name'],
+                        "domain_name": domain_name,
                         "csr_email": email_params['csr_email'],
                         "end_date": email_params['end_date'].strftime('%d/%m/%Y')
                     }
