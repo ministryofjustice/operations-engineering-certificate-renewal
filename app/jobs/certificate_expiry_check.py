@@ -29,8 +29,10 @@ def main(testrun: bool = False, test_email: str = ""):
     # Get a list of the expired certificates from Gandi
     print("Extracting certificate list from Gandi...")
     certificate_list = gandi_service.get_certificate_list()
+    print(f"CERTIFICATES: {certificate_list}")
     valid_certificate_list = gandi_service.get_certificates_in_valid_state(
         certificate_list, email_mappings)
+    print(f"VALID CERTIFICATES: {valid_certificate_list}")
     if expired_certificate_list := gandi_service.get_expired_certificates_from_valid_certificate_list(
             valid_certificate_list, email_mappings
     ):
