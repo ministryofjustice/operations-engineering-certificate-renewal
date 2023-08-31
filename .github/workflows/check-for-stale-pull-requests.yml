@@ -23,6 +23,8 @@ jobs:
         else
           echo "No stale pull request found."
         fi
+      env:
+        GH_TOKEN: ${{ github.token }}
 
     - name: Send stale pull request notification to Slack
       if: env.STALE_PR_LINK
@@ -52,5 +54,4 @@ jobs:
             ]
           }
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
