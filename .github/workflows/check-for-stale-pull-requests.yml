@@ -1,0 +1,50 @@
+name: Stale PR Notifier
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 * * * *'
+
+jobs:
+  check_stale_prs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Check for stale pull requests
+      id: check_prs
+      run: |
+        gh pr list --repo ${{ github.repository }} --state open --json createdAt,url,title -q ".[] | select(.createdAt < \"$(date -d '4 hours ago' --utc +%Y-%m-%dT%H:%M:%SZ')\")"
+        echo "STALE_PR_LINK=https://github.com/user/repo/pull/1" >> $GITHUB_ENV
+
+    - name: Send notification to Slack
+      if: env.STALE_PR_LINK
+      uses: 8398a7/action-slack@v3
+      with:
+        status: custom
+        fields: repo,message
+        custom_payload: |
+          {
+            "text": "Stale PR Detected!",
+            "attachments": [
+              {
+                "color": "#FF0000",
+                "fields": [
+                  {
+                    "title": "Repository",
+                    "value": "${{ github.repository }}",
+                    "short": true
+                  },
+                  {
+                    "title": "Pull Request",
+                    "value": "${{ env.STALE_PR_LINK }}",
+                    "short": true
+                  }
+                ]
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
