@@ -20,6 +20,7 @@ jobs:
         PR_URLS=$(gh pr list --repo ${{ github.repository }} --state open --json createdAt,url,title -q ".[] | select(.createdAt < \"$DATE_CREATED\") | .url")
         if [ ! -z "$PR_URLS" ]; then
           echo "PR_URLS=$PR_URLS" >> $GITHUB_ENV
+          echo "::set-output name=pr_urls::$PR_URLS"
         else
           echo "No stale pull request found."
         fi
@@ -27,9 +28,9 @@ jobs:
         GH_TOKEN: ${{ github.token }}
 
     - name: Send stale pull request notifications to Slack
-      if: env.PR_URLS
+      if: steps.check_prs.outputs.pr_urls
       run: |
-        IFS=$'\n' read -ra URLS_ARRAY <<< "$PR_URLS"
+        IFS=$'\n' read -ra URLS_ARRAY <<< "${{ steps.check_prs.outputs.pr_urls }}"
         for url in "${URLS_ARRAY[@]}"; do
           curl -X POST -H 'Content-type: application/json' --data "{
             \"text\": \"Stale pull request found\",
