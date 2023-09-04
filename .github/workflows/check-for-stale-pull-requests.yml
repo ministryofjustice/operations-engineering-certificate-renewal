@@ -17,11 +17,9 @@ jobs:
       id: check_prs
       run: |
         DATE_CREATED=$(date -d '1 minute ago' --utc +%Y-%m-%dT%H:%M:%SZ)
-        PR_LINKS=$(gh pr list --repo ${{ github.repository }} --state open --json createdAt,url,title -q ".[] | select(.createdAt < \"$DATE_CREATED\") | .url")
-
-        echo $PR_LINKS
-
-        if [ ! -z "$PR_LINKS" ]; then
+        PR_JSON=$(gh pr list --repo ${{ github.repository }} --state open --json createdAt,url,title -q ".[] | select(.createdAt < \"$DATE_CREATED\") | .url")
+    
+        if [ ! -z "$PR_JSON" ]; then
           PR_LINKS=$(echo "$PR_LINKS" | tr ' ' '\n')
           echo "STALE_PR_LINKS=$PR_LINKS" >> $GITHUB_ENV
         else
@@ -49,7 +47,7 @@ jobs:
                   },
                   {
                     "title": "Pull Request(s)",
-                    "value": "${{ env.STALE_PR_LINKS }}",
+                    "value": "${{ join(env.STALE_PR_LINKS, '\n') }}",
                     "short": false
                   }
                 ]
