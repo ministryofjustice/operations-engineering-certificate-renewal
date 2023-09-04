@@ -19,7 +19,7 @@ jobs:
         DATE_CREATED=$(date -d '1 minute ago' --utc +%Y-%m-%dT%H:%M:%SZ)
         PR_JSON=$(gh pr list --repo ${{ github.repository }} --state open --json createdAt,url,title -q ".[] | select(.createdAt < \"$DATE_CREATED\") | .url")
     
-        if [ ! -z "$PR_URL" ]; then
+        if [ ! -z "$PR_JSON" ]; then
           PR_LINKS=$(echo "$PRS_JSON" | jq -r '.[] | .url')
           echo "STALE_PR_LINKS=$PR_LINKS" >> $GITHUB_ENV
         else
@@ -56,4 +56,3 @@ jobs:
           }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        
