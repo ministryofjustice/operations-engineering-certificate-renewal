@@ -21,6 +21,8 @@ jobs:
 
         PR_COUNT=$(echo "$PR_JSON" | wc -l)
 
+        echo "TOTAL_PR_COUNT=$PR_COUNT" >> $GITHUB_ENV
+
         if [ "$PR_COUNT" -gt 0 ]; then
           PR_ATTACHMENTS=""
           while read -r pr; do
@@ -44,7 +46,7 @@ jobs:
         fields: repo,message
         custom_payload: |
           {
-            "text": "${{ env.PR_COUNT }} Stale pull request(s) found!",
+            "text": "${{ env.TOTAL_PR_COUNT }} Stale pull request(s) found!",
             "attachments": [
               {
                 "color": "#FF0000",
