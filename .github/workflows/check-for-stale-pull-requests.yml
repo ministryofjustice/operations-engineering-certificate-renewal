@@ -17,40 +17,43 @@ jobs:
       id: check_prs
       run: |
         DATE_CREATED=$(date -d '1 minute ago' --utc +%Y-%m-%dT%H:%M:%SZ)
-        PR_URLS=$(gh pr list --repo ${{ github.repository }} --state open --json createdAt,url,title -q ".[] | select(.createdAt < \"$DATE_CREATED\") | .url")
-        if [ ! -z "$PR_URLS" ]; then
-          echo "PR_URLS=$PR_URLS" >> $GITHUB_ENV
+        PR_JSON=$(gh pr list --repo ${{ github.repository }} --state open --json createdAt,url,title -q ".[] | select(.createdAt < \"$DATE_CREATED\") | .url")
+    
+        if [ ! -z "$PR_URL" ]; then
+          PR_LINKS=$(echo "$PRS_JSON" | jq -r '.[] | .url')
+          echo "STALE_PR_LINKS=$PR_LINKS" >> $GITHUB_ENV
         else
-          echo "No stale pull request(s) found."
+          echo "No stale pull request found."
         fi
       env:
         GH_TOKEN: ${{ github.token }}
-
-    - name: Send stale pull request notifications to Slack
-      if: env.PR_URLS
-      run: |
-        IFS=$'\n' read -ra URLS_ARRAY <<< "$PR_URLS"
-        for url in "${URLS_ARRAY[@]}"; do
-          curl -X POST -H 'Content-type: application/json' --data "{
-            \"text\": \"Stale pull request(s) found!\",
-            \"attachments\": [
+    - name: Send stale pull request notification to Slack
+      if: env.STALE_PR_LINK
+      uses: 8398a7/action-slack@v3
+      with:
+        status: custom
+        fields: repo,message
+        custom_payload: |
+          {
+            "text": "Stale pull request(s) found!",
+            "attachments": [
               {
-                \"color\": \"#FF0000\",
-                \"fields\": [
+                "color": "#FF0000",
+                "fields": [
                   {
-                    \"title\": \"Repository\",
-                    \"value\": \"${{ github.repository }}\",
-                    \"short\": true
+                    "title": "Repository",
+                    "value": "${{ github.repository }}",
+                    "short": true
                   },
                   {
-                    \"title\": \"Pull Request\",
-                    \"value\": \"$url\",
-                    \"short\": true
+                    "title": "Pull Request(s)",
+                    "value": "${{ join(env.STALE_PR_LINKS, '\n') }}",
+                    "short": false
                   }
                 ]
               }
             ]
-          }" ${{ secrets.SLACK_WEBHOOK_URL }}
-        done
+          }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        
