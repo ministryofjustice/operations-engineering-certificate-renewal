@@ -22,18 +22,15 @@ jobs:
         echo $PR_LINKS
 
         if [ ! -z "$PR_LINKS" ]; then
-          # Convert space-separated links to newline-separated links
           PR_LINKS=$(echo "$PR_LINKS" | tr ' ' '\n')
           echo "STALE_PR_LINKS=$PR_LINKS" >> $GITHUB_ENV
-          echo "::set-output name=has_stale_prs::true"
         else
           echo "No stale pull request found."
-          echo "::set-output name=has_stale_prs::false"
         fi
       env:
         GH_TOKEN: ${{ github.token }}
     - name: Send stale pull request notification to Slack
-      if: steps.check_prs.outputs.has_stale_prs == 'true'
+      if: env.STALE_PR_LINKS
       uses: 8398a7/action-slack@v3
       with:
         status: custom
