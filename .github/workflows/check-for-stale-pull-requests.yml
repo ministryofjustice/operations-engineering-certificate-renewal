@@ -50,7 +50,7 @@ jobs:
                   },
                   {
                     "title": "Pull Request(s)",
-                    "value": "${{ join(split(env.STALE_PR_LINKS, '\n'), '\n') }}",
+                    "value": "${{ env.STALE_PR_LINKS }}",
                     "short": false
                   }
                 ]
