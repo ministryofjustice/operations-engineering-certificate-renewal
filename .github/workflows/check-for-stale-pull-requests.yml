@@ -20,8 +20,6 @@ jobs:
         PR_JSON=$(gh pr list --repo ${{ github.repository }} --state open --json createdAt,url,title -q ".[] | select(.createdAt < \"$DATE_CREATED\") | .url")
 
         if [ ! -z "$PR_JSON" ]; then
-          PR_LINKS=$(echo "$PR_JSON" | tr ' ' ',')
-          echo "STALE_PR_LINKS=$PR_LINKS" >> $GITHUB_ENV
           echo "HAS_STALE_PRS=true" >> $GITHUB_ENV
           echo "TEMP_PR=$PR_JSON" >> £GITHUB_ENV
         else
