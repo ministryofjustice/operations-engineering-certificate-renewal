@@ -18,9 +18,11 @@ jobs:
       run: |
         DATE_CREATED=$(date -d '1 minute ago' --utc +%Y-%m-%dT%H:%M:%SZ)
         PR_JSON=$(gh pr list --repo ${{ github.repository }} --state open --json createdAt,url,title -q ".[] | select(.createdAt < \"$DATE_CREATED\") | .url")
+
+        echo $PR_JSON
     
         if [ ! -z "$PR_JSON" ]; then
-          PR_LINKS=$(echo "$PR_LINKS" | tr ' ' '\n')
+          PR_LINKS=$(echo "$PR_JSON" | tr ' ' '\n')
           echo "STALE_PR_LINKS=$PR_LINKS" >> $GITHUB_ENV
         else
           echo "No stale pull request found."
