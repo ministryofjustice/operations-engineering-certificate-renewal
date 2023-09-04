@@ -22,7 +22,7 @@ jobs:
         echo $PR_JSON
     
         if [ ! -z "$PR_JSON" ]; then
-          PR_LINKS=$(echo "$PR_JSON" | tr ' ' '\n')
+          PR_LINKS=$(echo "$PR_JSON" | tr ' ' ',')
           echo $PR_LINKS
           echo "STALE_PR_LINKS=$PR_LINKS" >> $GITHUB_ENV
           echo $STALE_PR_LINKS
@@ -51,7 +51,7 @@ jobs:
                   },
                   {
                     "title": "Pull Request(s)",
-                    "value": "${{ join(env.STALE_PR_LINKS, '\n') }}",
+                    "value": "${{ join(fromJson('[' + env.STALE_PR_LINKS + ']'), '\n') }}",
                     "short": false
                   }
                 ]
