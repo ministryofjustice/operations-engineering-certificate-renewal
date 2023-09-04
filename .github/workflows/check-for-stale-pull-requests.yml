@@ -18,9 +18,11 @@ jobs:
       run: |
         DATE_CREATED=$(date -d '1 minute ago' --utc +%Y-%m-%dT%H:%M:%SZ)
         PR_JSON=$(gh pr list --repo ${{ github.repository }} --state open --json createdAt,url,title -q ".[] | select(.createdAt < \"$DATE_CREATED\") | .url")
+
+        echo $PR_JSON
     
         if [ ! -z "$PR_JSON" ]; then
-          PR_LINKS=$(echo "$PRS_JSON" | jq -r '.[] | .url')
+          PR_LINKS=$(echo "$PR_JSON" | jq -r '.[] | .url')
           echo "STALE_PR_LINKS=$PR_LINKS" >> $GITHUB_ENV
         else
           echo "No stale pull request found."
@@ -28,7 +30,7 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
     - name: Send stale pull request notification to Slack
-      if: env.STALE_PR_LINK
+      if: env.STALE_PR_LINKS
       uses: 8398a7/action-slack@v3
       with:
         status: custom
