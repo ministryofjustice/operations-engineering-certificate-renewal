@@ -21,7 +21,7 @@ jobs:
 
         if [ ! -z "$PR_JSON" ]; then
           echo "HAS_STALE_PRS=true" >> $GITHUB_ENV
-          echo "TEMP_PR=$PR_JSON" >> £GITHUB_ENV
+          echo "TEMP_PR=$PR_JSON" >> $GITHUB_ENV
 
           echo $PR_JSON
 
