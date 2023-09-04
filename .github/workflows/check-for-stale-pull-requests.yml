@@ -23,6 +23,7 @@ jobs:
           PR_LINKS=$(echo "$PR_JSON" | tr ' ' ',')
           echo "STALE_PR_LINKS=$PR_LINKS" >> $GITHUB_ENV
           echo "HAS_STALE_PRS=true" >> $GITHUB_ENV
+          echo "TEMP_PR=$PR_JSON" >> £GITHUB_ENV
         else
           echo "No stale pull request found."
           echo "HAS_STALE_PRS=false" >> $GITHUB_ENV
@@ -50,7 +51,7 @@ jobs:
                   },
                   {
                     "title": "Pull Request(s)",
-                    "value": "${{ env.STALE_PR_LINKS }}",
+                    "value": "${{ env.TEMP_PR }}",
                     "short": false
                   }
                 ]
