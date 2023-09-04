@@ -54,7 +54,7 @@ jobs:
                   },
                   {
                     "title": "Pull Request(s)",
-                    "value": "${{ env.PR_JSON }} ",
+                    "value": "${{ env.TEMP_PR }} ",
                     "short": false
                   }
                 ]
