@@ -9,9 +9,6 @@ jobs:
   check_stale_prs:
     runs-on: ubuntu-latest
 
-    outputs:
-      stale_prs: ${{ steps.check_prs.outputs.stale_prs }}
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -26,7 +23,6 @@ jobs:
           echo "HAS_STALE_PRS=true" >> $GITHUB_ENV
           echo "TEMP_PR=$(echo "$PR_JSON" | tr '\n' ',')" >> $GITHUB_ENV
 
-          echo "stale_prs=$PR_JSON" >> "$GITHUB_OUTPUT"
 
           echo $PR_JSON
 
@@ -58,7 +54,7 @@ jobs:
                   },
                   {
                     "title": "Pull Request(s)",
-                    "value": "${{ steps.check_prs.outputs.stale_prs }}",
+                    "value": "${{ env.TEMP_PR }} | tr ',' '\n'",
                     "short": false
                   }
                 ]
