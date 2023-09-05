@@ -8,7 +8,7 @@ jobs:
   run-unit-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Python Setup
         uses: actions/setup-python@v4
         with:
