@@ -22,10 +22,6 @@ elif [ $1 = "testreport" ]
 then
   export CONFIG_CONTEXT="./configs/production.yml"
   python3 app/jobs/certificate_expiry_undeliverable_report.py -test $2
-elif [ $1 = "gandifunds" ]
-then
-  export CONFIG_CONTEXT="./configs/production.yml"
-  python3 app/jobs/request-gandi-funds.py
 else
   echo "Run failed:" >&2
 fi

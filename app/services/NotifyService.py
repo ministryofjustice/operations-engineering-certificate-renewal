@@ -107,18 +107,3 @@ class NotifyService:
                 }
                 undelivered_emails.append(undelivered_email)
         return undelivered_emails
-
-    def send_gandi_fund_email(self, template_id, email, remaining_amount):
-        try:
-            NotificationsAPIClient(self.api_key).send_email_notification(
-                email_address=email,
-                template_id=template_id,
-                personalisation={
-                    "remaining_amount": remaining_amount,
-                    "topup_amount": self.config['gandi']['topup_amount']
-                }
-            )
-        except requests.exceptions.HTTPError as api_key_error:
-            raise requests.exceptions.HTTPError(
-                f"You may need to export your Notify API Key:\n {api_key_error}"
-            ) from api_key_error
