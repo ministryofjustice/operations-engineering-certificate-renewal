@@ -1,7 +1,0 @@
-boto3
-requests
-gandi
-notifications-python-client
-pyaml-env
-freezegun
-coverage

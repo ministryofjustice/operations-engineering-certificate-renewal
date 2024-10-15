@@ -26,8 +26,8 @@ jobs:
           python-version: '3.11'
       - name: Install Python Packages from Requirements File
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pipenv
+          pipenv install
       - name: execute certificate expiry run
         run: source run.sh certexpire
         env:
